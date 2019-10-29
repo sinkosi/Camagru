@@ -4,7 +4,7 @@ print "HELLO WORLD, THis is me trying something"
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Basics</title>
+    <title>Camagru</title>
 
 <body style="background-color: #FFC0CB;">
 <header>
@@ -19,6 +19,15 @@ print "HELLO WORLD, THis is me trying something"
     <tr>
         <td><A href ="https://www.takealot.com">takealot</A></td>
         <td><A href="https://www.amazon.com">amazon</A></td>
+    </tr>
+    <tr>
+        <td><A href ="loginUser.php"> Login</A></td>
+        <td><A href ="signup.php"> Sign up</A></td>
+        <td><A href="BBC Practice/bbc.html"</A></td>
+    </tr>
+    <tr>
+        <td><A href ="loginUser.php"> Login</A></td>
+        <td><A href ="BBC Practice/bbc.html"> Glory</A></td>
     </tr>
 </table>
 <hr>
