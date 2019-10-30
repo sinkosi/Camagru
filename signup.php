@@ -1,11 +1,16 @@
+<?php
+
+?>
+
 <!DOCTYPE html>
 <html>
-    <header>
-    <!--    <link rel="stylesheet" type="text/css" href="index.css">-->
-        <title>SIGN UP</title>
-    </header>
+    <head>
+      <title>Camagru - SIGN UP</title>
+      <link rel="stylesheet" type="text/css" href="View/stylesheet.css">
+      
+    </head>
     <body>
-
+        <?php include('header.php') ?>
         <div id="login">
             <div class="title">SIGNUP</div>
             <div id="container">

@@ -1,9 +1,15 @@
+<?php
+
+?>
+
 <!DOCTYPE html>
  <html>
-<head>
-        <title>Camagru</title>
+    <head>
+        <title>Camagru - Login</title>
+        <link rel="stylesheet" type="text/css" href="View/stylesheet.css">
      </head>
      <body>
+         <?php include('header.php') ?>
          <div id="login">
           <div class="title">LOGIN</div>
           <div id="container">
