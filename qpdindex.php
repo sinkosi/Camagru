@@ -4,11 +4,14 @@
     <button type="submit" name="login-submit">Login</button>
 </form> -->
 
+<?php include ('header.php') ?>
 
 <form action="./login.php" method="POST">
+    <br>
     <label for="email">Email</label> 
     <input type="email" id="email" name="email" required="email"/>
-    <label for="password">Email</label> 
+    <br>
+    <label for="password">Password</label> 
     <input type="password" id="password" name="password" required/>
     <input type="submit" name="submit" />
 </form>

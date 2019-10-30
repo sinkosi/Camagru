@@ -21,14 +21,14 @@
 				<div id="menu-bar-2">
 					<a href="index.php">Home</a>
 					<a href="signup.php">Sign Up</a>
-					<a href="loginUser.php">Login</a>
+					<a href="qpdindex.php">Login</a>
 					<a href="camera.php">Camera Test</a>
 					<a href="">Other 2</a>
 					<a href="">Other 3</a>
 					<a href="">Other 4</a>
 					<a href="">Other 5</a>
 					<a href="">Other 6</a>
-					<a href="">Other 7</a>
+					<a href="qpdindex.php">Other 7</a>
 				</div>
 			</div>
 		</div>

@@ -3,5 +3,6 @@
     $password = $_POST['password'];
 
     echo $email;
+    echo "\n";
     echo $password;
 ?>

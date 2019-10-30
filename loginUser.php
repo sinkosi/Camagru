@@ -10,13 +10,19 @@
      </head>
      <body>
          <?php include('header.php') ?>
-         <div id="login">
-          <div class="title">LOGIN</div>
-          <div id="container">
-             <form action="#" method="POST">
-                 <input id="text" name="mailuid" placeholder="Username/E-mail...." require>
-                 <input id="password" name="pwd" placeholder="Password...." require>
-                 <button type="submit" name="login-submit">Login</button>
+         
+        <div id="login">
+
+        <div id="container">
+            <form action="./login.php" method="POST">
+                <br>
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Username/E-mail...." required="email"/>
+                <br>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Password...." required/>
+                <br>
+                <input type="submit" name="submit" />
 
              </form>
              <div class="register">
