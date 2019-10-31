@@ -1,9 +1,5 @@
 <?php
-/*$servername = "localhost";
-$username = "root";
-$password = "password";
-$dbname = "camagru";
-*/
+
 session_start();
 
 include_once ('./createConnection.php');
