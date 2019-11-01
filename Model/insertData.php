@@ -2,7 +2,7 @@
 
 session_start();
 
-include_once ('./createConnection.php');
+include_once ('../config/createConnection.php');
 
 if (isset($_POST["submit"]))
 {

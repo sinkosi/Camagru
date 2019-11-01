@@ -1,8 +1,6 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "password";
-$dbname = "camagru";
+
+require('credentials.php');
 
 try {
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
