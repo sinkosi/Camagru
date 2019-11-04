@@ -9,10 +9,11 @@ try {
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // sql to create table
-    $sql = "CREATE TABLE c_user (
+    //CREATE USER TABLE
+    $sql = "CREATE TABLE IF NOT EXISTS user (
     id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(25) NOT NULL UNIQUE,
-    password_plain VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
     /*password VARCHAR(255) NOT NULL,*/
     picturesource VARCHAR(255),
     verified tinyint(1) NOT NULL DEFAULT '0',
@@ -21,10 +22,53 @@ try {
     surname VARCHAR(50) NOT NULL,
     reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     )";
-
-    // use exec() because no results are returned
     $conn->exec($sql);
-    //echo "Table MyGuests created successfully";
+
+    //IMAGE TABLE CREATION
+    $conn = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
+    // set the PDO error mode to exception
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $sql = "CREATE TABLE IF NOT EXISTS image (
+    id INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    source VARCHAR(255) NOT NULL,
+    creationdate TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    userid INT(6) UNSIGNED NOT NULL,
+    FOREIGN KEY (userid) REFERENCES user(id)
+    )";
+    $conn->exec($sql);
+    // use exec() because no results are returned
+    
+    //COMMENT TABLE CREATION
+    $conn = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
+    // set the PDO error mode to exception
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $sql = "CREATE TABLE IF NOT EXISTS comments (
+    id INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    userid INT(6) UNSIGNED NOT NULL,
+    imageid INT(10) UNSIGNED NOT NULL,
+    text VARCHAR(100) NOT NULL,
+    FOREIGN KEY (userid) REFERENCES user(id),
+    FOREIGN KEY (imageid) REFERENCES image(id)
+    )";
+    $conn->exec($sql);
+    // use exec() because no results are returned
+
+    //LIKE TABLE CREATION
+    $conn = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
+    // set the PDO error mode to exception
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $sql = "CREATE TABLE IF NOT EXISTS likes (
+    id INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    userid INT(6) UNSIGNED NOT NULL,
+    imageid INT(10) UNSIGNED NOT NULL,
+    text VARCHAR(100) NOT NULL,
+    FOREIGN KEY (userid) REFERENCES user(id),
+    FOREIGN KEY (imageid) REFERENCES image(id)
+    )";
+    $conn->exec($sql);
+
+
+    echo "Tables created successfully";
     }
 catch(PDOException $e)
     {

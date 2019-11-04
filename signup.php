@@ -23,13 +23,13 @@
           <input id="surname" name="surname" placeholder="Surname" type="text">
           <br>
           <label>Username: </label>
-          <input id="name" name="user_name" placeholder="username" type="text">
+          <input id="name" name="username" placeholder="username" type="text">
           <br>
           <label>Email: </label>
           <input id="name" name="email" placeholder="E-mail" type="mail">
           <br>
           <label>Password: </label>
-          <input id="password" name="passwd" placeholder="password" type="password">
+          <input id="password" name="password" placeholder="password" type="password">
           <br>
           <label>Confirm Password: </label>
           <input id="password" name="confirm-password" placeholder="confirm-password" type="password">

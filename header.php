@@ -12,7 +12,7 @@
 			<div id="menu-bar">
 				<h1 href="index.php">Camagru</h1>
 				<div id="localnews">
-					<a href="">Send Nudes</a>
+					<a href="./config/setup.php">Send Nudes</a>
 					<img src="BBC Practice/images/grunt.png">
 				</div>
 			</div>
@@ -28,7 +28,7 @@
 					<a href="webcam.php">Webcam</a>
 					<a href="">Other 5</a>
 					<a href="">Other 6</a>
-					<a href="qpdindex.php">Other 7</a>
+					<a href="pdo-login.php">Login (PDO)</a>
 				</div>
 			</div>
 		</div>

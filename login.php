@@ -19,7 +19,7 @@
       $myusername = $_POST['username'];
       $mypassword = $_POST['password'];
 
-      $sql = "SELECT id FROM c_user WHERE username = '$myusername' and passcode = '$mypassword'";
+      $sql = "SELECT id FROM user WHERE username = '$myusername' and passcode = '$mypassword'";
       $result = mysqli_query($db,$sql);
       $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
       $active = $row['active'];
