@@ -10,7 +10,7 @@
 <body>
     <?php include('header.php') ?>
     <br>
-    <table>
+    <table align="center">
         <tr>
             <td><IMG src="https://hisense.co.za/wp-content/uploads/2018/11/Takealot.png" width="500" height="300"></td>
             <td><img src="https://images-na.ssl-images-amazon.com/images/G/01/gc/designs/livepreview/amazon_dkblue_noto_email_v2016_us-main._CB468775337_.png" width="500" height="300"></td>

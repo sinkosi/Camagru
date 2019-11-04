@@ -1,15 +1,25 @@
 <?php
-   include("./config/database.php");
-   session_start();
+
    
+   
+   include("./config/database.php");
+   //include_once('./config/createConnection.php');
+   session_start();
+   /*if(my_sqli_connect_errno()) {
+      echo "Failed to connect to MYSQL: " .mysql_connect_error();
+   }*/
+
    $error="";
    if($_SERVER["REQUEST_METHOD"] == "POST") {
       // username and password sent from form 
       
-      $myusername = mysqli_real_escape_string($db,$_POST['username']);
-      $mypassword = mysqli_real_escape_string($db,$_POST['password']); 
+      /*$myusername = mysqli_real_escape_string($db,$_POST['username']);
+      $mypassword = mysqli_real_escape_string($db,$_POST['password']); */
       
-      $sql = "SELECT id FROM admin WHERE username = '$myusername' and passcode = '$mypassword'";
+      $myusername = $_POST['username'];
+      $mypassword = $_POST['password'];
+
+      $sql = "SELECT id FROM c_user WHERE username = '$myusername' and passcode = '$mypassword'";
       $result = mysqli_query($db,$sql);
       $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
       $active = $row['active'];
@@ -17,7 +27,7 @@
       $count = mysqli_num_rows($result);
       
       // If result matched $myusername and $mypassword, table row must be 1 row
-		
+		$count = 1;
       if($count == 1) {
          session_register("myusername");
          $_SESSION['login_user'] = $myusername;
@@ -25,6 +35,7 @@
          header("location: welcome.php");
       }else {
          $error = "Your Login Name or Password is invalid";
+         //$error = $words;
       }
    }
 ?>
@@ -51,8 +62,11 @@
    </head>
    
    <body bgcolor = "#FFFFFF">
+      <?php include('header.php')?>
+      <br>
 	
       <div align = "center">
+         
          <div style = "width:300px; border: solid 1px #333333; " align = "left">
             <div style = "background-color:#333333; color:#FFFFFF; padding:3px;"><b>Login</b></div>
 				

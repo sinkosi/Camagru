@@ -198,3 +198,16 @@ footer {
     background-color: olivedrab;
     text-align: right;
 }
+
+#camera{
+    margin: 0px auto;
+    width: 500px;
+    height: 375px;
+    border: 1-px #333 solid;
+}
+
+#cameraElement{
+    width: 500px;
+    height: 375px;
+    background-color: #666;
+}
