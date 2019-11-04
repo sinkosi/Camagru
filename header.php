@@ -21,7 +21,7 @@
 				<div id="menu-bar-2">
 					<a href="index.php">Home</a>
 					<a href="signup.php">Sign Up</a>
-					<a href="qpdindex.php">Login</a>
+					<a href="login.php">Login</a>
 					<a href="camera.php">Camera Test</a>
 					<a href="">Other 2</a>
 					<a href="">Other 3</a>
