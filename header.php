@@ -26,9 +26,8 @@
 					<a href="welcome.php">Welcome Page</a>
 					<a href="cameratest.html">Other 3</a>
 					<a href="webcam.php">Webcam</a>
-					<a href="">Other 5</a>
-					<a href="">Other 6</a>
-					<a href="pdo-login.php">Login (PDO)</a>
+					<a href="longtime.php">long time ago</a>
+					<a href="login.php">Login (PDO)</a>
 				</div>
 			</div>
 		</div>

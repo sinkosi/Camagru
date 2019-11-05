@@ -7,7 +7,7 @@ require_once ('../config/createConnection.php');
 if (isset($_POST["submit"]))
 {
     $username = $_POST['username'];
-    $password = password_hash($_POST['passwd'], PASSWORD_DEFAULT);
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
     //$passwd_plain = $_POST['passwd'];
     $email = $_POST['email'];
     $fullname = $_POST['fullname'];
@@ -27,6 +27,7 @@ if (isset($_POST["submit"]))
         $conn->exec($sql);
         // echo ".$user_name.";
         //echo "New record created successfully";
+        header("Location: ../checkMail.php");
         }
     catch(PDOException $e)
         {

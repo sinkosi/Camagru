@@ -35,16 +35,6 @@
           <input id="password" name="confirm-password" placeholder="confirm-password" type="password">
           <br>
           <input name="submit" type="submit" value=" Register ">
-          <!-- span>
-            <--?php
-            echo $_SESSION['error'];
-            $_SESSION['error'] = null;
-            if (isset($_SESSION['signup_success'])) {
-              echo "Signup success please check your mail box";
-              $_SESSION['signup_success'] = null;
-            }
-            ?
-          </span -->
         </form>
       </div>
     </div>
