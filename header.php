@@ -20,14 +20,14 @@
 			<div id="menu-bar-2-container">
 				<div id="menu-bar-2">
 					<a href="index.php">Home</a>
-					<a href="signup.php">Sign Up</a>
+					<a href="gallery.php">Gallery</a>
 					<a href="login.php">Login</a>
 					<a href="camera.php">Camera Test</a>
 					<a href="welcome.php">Welcome Page</a>
-					<a href="cameratest.html">Other 3</a>
-					<a href="webcam.php">Webcam</a>
+					<a href="upload.php">Upload</a>
+					<a href="">"Untitled"</a>
 					<a href="longtime.php">long time ago</a>
-					<a href="login.php">Login (PDO)</a>
+					<a href="register.php">Register</a>
 				</div>
 			</div>
 		</div>
