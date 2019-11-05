@@ -6,4 +6,5 @@
     $DB_PASSWORD = "password";
     $DB_NAME = "camagru";
     $db = mysqli_connect($DB_URL,$DB_USER,$DB_PASSWORD,$DB_NAME);
+    $dbn = new mysqli($DB_URL, $DB_USER, $DB_PASSWORD, $DB_NAME);
 ?>

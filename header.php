@@ -25,7 +25,7 @@
 					<a href="camera.php">Camera Test</a>
 					<a href="welcome.php">Welcome Page</a>
 					<a href="upload.php">Upload</a>
-					<a href="">"Untitled"</a>
+					<a href="gallery2.php">"Gallery2"</a>
 					<a href="longtime.php">long time ago</a>
 					<a href="register.php">Register</a>
 				</div>
