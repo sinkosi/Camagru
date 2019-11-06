@@ -11,11 +11,12 @@ session_start();
 
 // Check if the user is already logged in, if yes then redirect him to welcome page
 if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
-    header("location: welcome.php");
-    echo "<script type='text/javascript'>alert('$message');</script>";
     
+    echo "<script>alert('$message');</script>";
+    echo '<script>window.location="login.php"</script>';
+    //header("location: welcome.php");
     
-    //exit;
+    exit;
     
 }
 
@@ -194,6 +195,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     // Close connection
     unset($conn);
 }
+
+//EMAIL THINGS
+$checker = bin2hex(random_bytes(10));
+$token = random_bytes(32);
+$link = "http:localhost:8080/camagru/includes/signup.val.php?checker=" .$checker. "&validator=" .bin2hex($token)."&id=".$username;
+// $expiry = date("U") + 900;
+$message = "copy the link and past it in your browser: ".$link;
+mail($mail,"Confirm your Email",$message);
+echo '<script>alert("Registered Successfully. Please check your email for a verification link")</script>';
+echo '<script>window.location="login.php"</script>';
 
 ?>
  
