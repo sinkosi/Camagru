@@ -21,23 +21,38 @@ try {
     fullname VARCHAR(50) NOT NULL,
     surname VARCHAR(50) NOT NULL,
     reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-    )";
+    )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
     $conn->exec($sql);
-
-    //IMAGE TABLE CREATION
+/*
+    //IMAGE TABLE CREATION BACK UP COMMENT
     $conn = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
     // set the PDO error mode to exception
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $sql = "CREATE TABLE IF NOT EXISTS image (
     id INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     source VARCHAR(255) NOT NULL,
-    creationdate TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    uploaded_on datetime NOT NULL,
+    //uploaded_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     userid INT(6) UNSIGNED NOT NULL,
     FOREIGN KEY (userid) REFERENCES user(id)
     )";
     $conn->exec($sql);
     // use exec() because no results are returned
-    
+  */  
+
+    //IMAGES TABLE CREATION
+    $conn = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
+    // set the PDO error mode to exception
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $sql = "CREATE TABLE IF NOT EXISTS images (
+    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    source VARCHAR(255) COLLATE utf8_unicode_ci NOT NULL,
+    uploaded_on datetime NOT NULL,
+    status enum('1','0') COLLATE utf8_unicode_ci NOT NULL DEFAULT '1',
+    userid INT(6) UNSIGNED,
+    FOREIGN KEY (userid) REFERENCES user(id)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
+
     //COMMENT TABLE CREATION
     $conn = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
     // set the PDO error mode to exception

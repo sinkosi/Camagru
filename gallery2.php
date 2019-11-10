@@ -7,12 +7,16 @@ include './config/createConnection.php';
 require './config/database.php';
 
 include('header.php');
+?>
+
+<br>
+<?php
 // Get images from the database
 $query = $dbn->query("SELECT * FROM images ORDER BY uploaded_on DESC");
 
 if($query->num_rows > 0){
     while($row = $query->fetch_assoc()){
-        $imageURL = 'images/'.$row["file_name"];
+        $imageURL = 'images/'.$row["source"];
 
 ?>
 

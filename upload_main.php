@@ -4,6 +4,15 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+// Initialize the session
+session_start();
+ 
+// Check if the user is logged in, if not then redirect him to login page
+if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+    header("location: login.php");
+    exit;
+}
+
 // Include the database configuration file
 include './config/createConnection.php';
 require './config/database.php';
@@ -51,6 +60,7 @@ echo $statusMsg;
 <body>
     <?php include('header.php') ?>
     <div class="wrapper">
+        <h3>Hi, <b><?php echo htmlspecialchars($_SESSION["id"]); ?></b>. Welcome to our site.</h3>
         <h2>Upload Files</h2>
         <p>Please Upload an image using the special below</p>
         <form action="upload.php" method="post" enctype="multipart/form-data">
