@@ -68,6 +68,9 @@ echo $statusMsg;
         <br>
         <input type="submit" name="submit" value="Upload">
         </form>  
-    </div>    
+    </div>
+    <footer> 
+        <?php include('footer.php') ?>
+    </footer>
 </body>
 </html>

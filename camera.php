@@ -37,11 +37,12 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     const canvas = document.getElementById('canvas');
     const snap = document.getElementById('snap');
     const errorMsgElement = document.getElementById('spanErrorMsg');
+    var photo = null;
 
     const constraints = {
         audio: false,
         video:{
-            width:1280, height: 720
+            width:640, height: 480
         }
     };
     //Access webcam
@@ -67,7 +68,22 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     snap.addEventListener("click", function(){
         context.drawImage(video, 0, 0, 640, 480);
     });
+    // //Save Image
+    save.addEventListener("click", function(){
+        var photo = document.getElementById('canvas').src;
+    });
+    
+
     </script>
+    <?php 
+    $data = photo;
+    
+    list($type, $data) = explode(';', $data);
+    list(, $data) = explode(',', $data);
+    $data = base64_decode($data);
+
+    file_put_contents('images/image.png', $data);
+    ?>
     <?php include('footer.php') ?>
 </body>
 </html>

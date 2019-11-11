@@ -182,7 +182,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             // Attempt to execute the prepared statement
             if($stmt->execute()){
                 // Redirect to login page
-                mail("sibonelo@mailinator.com", "Camagru: Email Confirmation", "Please confirm your email address");
+                mail($email, "Camagru: Email Confirmation", "Please confirm your email address");
                 header("location: login.php");
             } else{
                 echo "Something went wrong. Please try again later.";
@@ -236,7 +236,7 @@ echo "Message could not be sent...";
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
     <style type="text/css">
         body{ font: 14px sans-serif; }
-        .wrapper{ width: 350px; padding: 20px; }
+        .wrapper{margin: auto; width: 350px; padding: 20px; }
     </style>
 </head>
 <body>
@@ -281,6 +281,7 @@ echo "Message could not be sent...";
             </div>
             <p>Already have an account? <a href="login.php">Login here</a>.</p>
         </form>
-    </div>    
+    </div>
+    <?php include('footer.php') ?>   
 </body>
 </html>

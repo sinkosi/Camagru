@@ -52,13 +52,15 @@ if($query->num_rows > 0){
 ?>
 
     <img src="<?php echo $imageURL; ?>" alt="" height="320" width=""/>
+    
 <?php }
 }else{ ?>
     <p>No image(s) found...</p>
 <?php } ?>
     
-    
-    
+    <br>
+    <br>
+
     <?php include('footer.php') ?>
 </body>
 </html>

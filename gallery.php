@@ -1,70 +1,31 @@
-
-<!--?php
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 // Initialize the session
 session_start();
- 
-// Check if the user is logged in, if not then redirect him to login page
-if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
-    header("location: login.php");
-    exit;
+// Include the database configuration file
+include './config/createConnection.php';
+require './config/database.php';
 
-}
-?-->
+include('header.php');
+?>
 
-<html>
-    <head>
-    <style>
-    div.gallery {
-    margin: 5px;
-    border: 1px solid #ccc;
-    float: left;
-    width: 180px;
-    }
+<br>
+<?php
+// Get images from the database
+$query = $dbn->query("SELECT * FROM images ORDER BY uploaded_on DESC");
 
-    div.gallery:hover {
-    border: 1px solid #777;
-    }
+if($query->num_rows > 0){
+    while($row = $query->fetch_assoc()){
+        $imageURL = 'images/'.$row["source"];
 
-    div.gallery img {
-    width: 100%;
-    height: auto;
-    }
+?>
 
-    div.desc {
-    padding: 15px;
-    text-align: center;
-    }
-    </style>
-</head>
-<body>
-    <?php include('header.php') ?>
-    <!--div class="gallery">
-    <a target="_blank" href="./images/img0001.jpeg">
-        <img src="./images/img0001.jpeg" alt="Cinque Terre" width="600" height="400">
-    </a>
-    <div class="desc">Add a description of the image here</div>
-    </div>
-
-    <div class="gallery">
-    <a target="_blank" href="./images/img0002.jpg">
-        <img src="./images/img0002.jpg" alt="Forest" width="600" height="400">
-    </a>
-    <div class="desc">Add a description of the image here</div>
-    </div>
-
-    <div class="gallery">
-    <a target="_blank" href="./images/img0003.jpg">
-        <img src="./images/img0003.jpg" alt="Northern Lights" width="600" height="400">
-    </a>
-    <div class="desc">Add a description of the image here</div>
-    </div>
-
-    <div class="gallery">
-    <a target="_blank" href="./images/img0004.jpg">
-        <img src="./images/img0004.jpg" alt="Mountains" width="600" height="400">
-    </a>
-    <div class="desc">Add a description of the image here</div>
-    </div-->
-
-    </body>
-</html>
+    <img src="<?php echo $imageURL; ?>" alt="" height="320" width=""/>
+<?php }
+}else{ ?>
+    <p>No image(s) found...</p>
+<?php } 
+include('footer.php')
+?>
