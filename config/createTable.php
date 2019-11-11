@@ -45,13 +45,14 @@ try {
     // set the PDO error mode to exception
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $sql = "CREATE TABLE IF NOT EXISTS images (
-    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     source VARCHAR(255) COLLATE utf8_unicode_ci NOT NULL,
     uploaded_on datetime NOT NULL,
     status enum('1','0') COLLATE utf8_unicode_ci NOT NULL DEFAULT '1',
-    userid INT(6) UNSIGNED,
+    userid INT(6) UNSIGNED NOT NULL,
     FOREIGN KEY (userid) REFERENCES user(id)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
+    $conn->exec($sql);
 
     //COMMENT TABLE CREATION
     $conn = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
@@ -59,12 +60,12 @@ try {
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $sql = "CREATE TABLE IF NOT EXISTS comments (
     id INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    userid INT(6) UNSIGNED NOT NULL,
-    imageid INT(10) UNSIGNED NOT NULL,
+    userid INT(6) UNSIGNED,
+    imageid INT(11) UNSIGNED NOT NULL,
     text VARCHAR(100) NOT NULL,
     FOREIGN KEY (userid) REFERENCES user(id),
-    FOREIGN KEY (imageid) REFERENCES image(id)
-    )";
+    FOREIGN KEY (imageid) REFERENCES images(id)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
     $conn->exec($sql);
     // use exec() because no results are returned
 
@@ -78,8 +79,8 @@ try {
     imageid INT(10) UNSIGNED NOT NULL,
     text VARCHAR(100) NOT NULL,
     FOREIGN KEY (userid) REFERENCES user(id),
-    FOREIGN KEY (imageid) REFERENCES image(id)
-    )";
+    FOREIGN KEY (imageid) REFERENCES images(id)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
     $conn->exec($sql);
 
 

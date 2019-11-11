@@ -1,35 +1,64 @@
 <?php
 
+include './config/createConnection.php';
+require './config/database.php';
+// Initialize the session
+session_start();
+ 
+// Check if the user is logged in, if not then redirect him to login page
+if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+    $_SESSION["username"] = "GUEST";
+    //header("location: login.php");
+    //exit;
+}
+
+$query = $dbn->query("SELECT * FROM images ORDER BY uploaded_on DESC");
+
+if($query->num_rows > 0){
+    while($row = $query->fetch_assoc()){
+        $imageURL = 'images/'.$row["source"];
+    }
+}
+
 ?>
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Camagru</title>
-    <link rel="stylesheet" type="text/css" href="View/stylesheet.css">
+    <meta charset="UTF-8">
+    <title>Welcome</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
+    <style type="text/css">
+        body{ font: 14px sans-serif; text-align: center; }
+    </style>
 </head>
 <body>
     <?php include('header.php') ?>
     <br>
-    <table align="center">
-        <tr>
-            <td><IMG src="https://hisense.co.za/wp-content/uploads/2018/11/Takealot.png" width="500" height="300"></td>
-            <td><img src="https://images-na.ssl-images-amazon.com/images/G/01/gc/designs/livepreview/amazon_dkblue_noto_email_v2016_us-main._CB468775337_.png" width="500" height="300"></td>
-        </tr>
-        <tr>
-            <td><A href ="https://www.takealot.com">takealot</A></td>
-            <td><A href="https://www.amazon.com">amazon</A></td>
-        </tr>
-        <tr>
-            <td><A href ="loginUser.php"> Login</A></td>
-            <td><A href ="signup.php"> Sign up</A></td>
-        </tr>
-        <tr>
-            <td><A href ="loginUser.php"> Login</A></td>
-            <td><A href ="BBC Practice/bbc.html"> Glory</A></td>
-        </tr>
-    </table>
+    <div class="page-header">
+        <h3>Hi, <b><?php echo htmlspecialchars($_SESSION["username"]); ?></b>. Welcome to our site.</h3>
+    </div>
+    
     <hr>
-    <p style="text-align: right; font-style: italic">&#169 sinkosi 2019</p>
+<!--YENZA IPLAN BOI-->
+<?php
+// Get images from the database
+$query = $dbn->query("SELECT * FROM images ORDER BY uploaded_on DESC");
+
+if($query->num_rows > 0){
+    while($row = $query->fetch_assoc()){
+        $imageURL = 'images/'.$row["source"];
+
+?>
+
+    <img src="<?php echo $imageURL; ?>" alt="" height="320" width=""/>
+<?php }
+}else{ ?>
+    <p>No image(s) found...</p>
+<?php } ?>
+    
+    
+    
     <?php include('footer.php') ?>
 </body>
 </html>

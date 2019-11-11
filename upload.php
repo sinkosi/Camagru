@@ -4,6 +4,15 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+// Initialize the session
+session_start();
+ 
+// Check if the user is logged in, if not then redirect him to login page
+if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+    header("location: login.php");
+    exit;
+}
+
 // Include the database configuration file
 include './config/createConnection.php';
 require './config/database.php';
@@ -23,10 +32,10 @@ if(isset($_POST["submit"]) && !empty($_FILES["file"]["name"])){
         // Upload file to server
         if(move_uploaded_file($_FILES["file"]["tmp_name"], $targetFilePath)){
             // Insert image file name into database
-            $insert = $db->query("INSERT into images (source, uploaded_on) VALUES ('".$fileName."', NOW())");
+            $insert = $db->query("INSERT into images (source, userid, uploaded_on) VALUES ('".$fileName."', '".$_SESSION["id"]."', NOW())");
                         
             if($insert){
-                $statusMsg = "The file ".$fileName. " has been uploaded successfully.";
+                $statusMsg = "The file ".$fileName. " has been uploaded successfully by ".($_SESSION["username"]).".";
             }else{
                 $statusMsg = "File upload failed, please try again.";
             } 

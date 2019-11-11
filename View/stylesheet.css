@@ -1,68 +1,7 @@
-#topbar{
-    width: 1000px;
-    margin: 0 auto;
-    height: 40px;
-
-}
-
 body {
     margin: 0;
     padding: 0;
     font-family: Arial, Helvetica, sans-serif;
-}
-
-#logo {
-
-    margin-top: 8px;
-    width: 100px;
-    height: 30px;
-    float: left;
-    margin-right: 8px;
-
-}
-
-.topbar-section {
-    float: left;
-    border-left: 1px #cccccc solid;
-    height: 100%;
-}
-
-#signin-image {
-
-    width: 30px;
-    margin: 8px;
-    float: left;
-}
-
-#signin-text {
-    font-weight: bold;
-    font-size: 90%;
-    position: relative;
-    top: 14px;
-    padding-right: 15px;
-}
-
-.topbar-menu {
-    font-weight: bold;
-    font-size: 90%;
-    padding: 13px 15px 0 10px;
-    height: 27px;
-}
-
-#search-box {
-    background-color: #e4e4e4;
-    border: none;
-    font-weight: bold;
-    font-size: 14px;
-    padding: 5px;
-    margin: 5px 0 5px 5px;
-    float: left;
-}
-
-#search-img {
-    height: 27px;
-    margin-top: 5px;
-
 }
 
 .clear {
@@ -71,9 +10,9 @@ body {
 
 #menu-bar-container {
     border-top: 1px solid #cccccc;
-    background-color: #bb1919;
+    background-color: #5154ff;
     width: 100%;
-    height: 70px;
+    height: 100px;
 }
 
 #menu-bar {
@@ -91,32 +30,33 @@ h1 {
     float: left;
 }
 
-#localnews {
+#menu-bar-top-right {
     float: right;
     color: white;
-    margin-top: 17px;
-    height: 40px;
+    margin-top: 12px;
+    height: 30px;
 }
 
-#localnews a {
+#menu-bar-top-right a {
     color: white;
     text-decoration: none;
     font-size: 30px;
     position: relative;
 }
 
-#localnews a:hover {
+#menu-bar-top-right a:hover {
     text-decoration: underline;
 }
 
-#localnews img {
+#menu-bar-top-right img {
     height: 40px;
     position: relative;
 }
 
 #menu-bar-2-container {
-    background-color: #a91717;
+    background-color: cornflowerblue;
     width: 100%;
+    margin-top: 15px;
 }
 
 #menu-bar-2 {
@@ -195,7 +135,7 @@ header {
 
 footer {
     display: block;
-    background-color: olivedrab;
+    background-color: #5154ff;
     text-align: right;
 }
 

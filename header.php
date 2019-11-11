@@ -2,6 +2,7 @@
 
 ?>
 
+<!DOCTYPE html>
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="View/stylesheet.css">
@@ -11,7 +12,7 @@
 		<div id="menu-bar-container">
 			<div id="menu-bar">
 				<h1 href="index.php">Camagru</h1>
-				<div id="localnews">
+				<div id="menu-bar-top-right">
 					<a href="./config/setup.php">Send Nudes</a>
 					<img src="BBC Practice/images/grunt.png">
 				</div>
@@ -20,7 +21,7 @@
 			<div id="menu-bar-2-container">
 				<div id="menu-bar-2">
 					<a href="index.php">Home</a>
-					<a href="gallery.php">Gallery</a>
+					<a href="email.php">EMAIL</a>
 					<a href="login.php">Login</a>
 					<a href="camera.php">Camera Test</a>
 					<a href="welcome.php">Welcome Page</a>
