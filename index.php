@@ -40,7 +40,7 @@ if($query->num_rows > 0){
     </div>
     
     <hr>
-<!--YENZA IPLAN BOI-->
+
 <?php
 // Get images from the database
 $query = $dbn->query("SELECT * FROM images ORDER BY uploaded_on DESC");
