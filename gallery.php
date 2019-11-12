@@ -2,8 +2,16 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
 // Initialize the session
 session_start();
+
+// Check if the user is logged in, if not then redirect him to login page
+if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+    header("location: login.php");
+    exit;
+}
+
 // Include the database configuration file
 include './config/createConnection.php';
 require './config/database.php';
@@ -23,6 +31,7 @@ if($query->num_rows > 0){
 ?>
 
     <img src="<?php echo $imageURL; ?>" alt="" height="320" width=""/>
+    <input type="text" name="comment">
 <?php }
 }else{ ?>
     <p>No image(s) found...</p>

@@ -14,19 +14,19 @@ try {
         // set the PDO error mode to exception
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);*/
         $sql = "INSERT INTO user (username, password, email, fullname, surname)
-        VALUES ('thoko', '".$password0."','new@email.co.za','Thoko', 'Mokoena')";
+        VALUES ('thoko', '".$password0."','thoko@mailinator.com','Thoko', 'Mokoena')";
         $conn->exec($sql);
         $sql = "INSERT INTO user (username, password, email, fullname, surname)
-        VALUES ('tshidi', '".$password1."','tshidi@email.co.za','Tshidi', 'Suhayl')";
+        VALUES ('tshidi', '".$password1."','tshidi@mailinator.com','Tshidi', 'Suhayl')";
         $conn->exec($sql);
         $sql = "INSERT INTO user (username, password, email, fullname, surname)
-        VALUES ('maria', '".$password2."','maria@email.co.za','Maria', 'Santana')";
+        VALUES ('maria', '".$password2."','maria@mailinator.com','Maria', 'Santana')";
         $conn->exec($sql);
         $sql = "INSERT INTO user (username, password, email, fullname, surname)
-        VALUES ('jade', '".$password3."','jade@email.co.za','Jade', 'Akiss')";
+        VALUES ('jade', '".$password3."','jade@mailinator.com','Jade', 'Akiss')";
         $conn->exec($sql);
         $sql = "INSERT INTO user (username, password, email, fullname, surname)
-        VALUES ('shimza', '".$password4."','simza@email.co.za','Simphiwe', 'Gogwakho')";
+        VALUES ('shimza', '".$password4."','simza@mailinator.com','Simphiwe', 'Gogwakho')";
         //Use exec() because no results are returned
         $conn->exec($sql);
         // echo ".$user_name.";

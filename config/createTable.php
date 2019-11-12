@@ -17,6 +17,7 @@ try {
     /*password VARCHAR(255) NOT NULL,*/
     picturesource VARCHAR(255),
     verified tinyint(1) NOT NULL DEFAULT '0',
+    notifications tinyint(1) NOT NULL DEFAULT '1',
     email VARCHAR(100) NOT NULL UNIQUE,
     fullname VARCHAR(50) NOT NULL,
     surname VARCHAR(50) NOT NULL,
