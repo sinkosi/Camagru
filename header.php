@@ -43,7 +43,7 @@ else{
 			<div id="menu-bar-2-container">
 				<div id="menu-bar-2">
 					<a href="index.php">Home</a>
-					<a href="email.php">Chat</a>
+					<a href="chat.php">Chat</a>
 					<a href="camera.php">Camera</a>
 					<!--a href="#">Welcome Page</a-->
 					<a href="upload.php">Upload</a>

@@ -30,10 +30,6 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     </div>
     <!-- Webcam video snapshot-->
     <canvas id="canvas" width="640" height="480"></canvas>
-
-    <div class="stickers">
-        <img src="./resources/pig.png" alt="chesse" id="img1"/>
-    </div>
     <script>
     'use strict';
     
@@ -42,6 +38,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     const snap = document.getElementById('snap');
     const errorMsgElement = document.getElementById('spanErrorMsg');
     var photo = null;
+
     const constraints = {
         audio: false,
         video:{
@@ -70,32 +67,34 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     var context = canvas.getContext('2d');
     snap.addEventListener("click", function(){
         context.drawImage(video, 0, 0, 640, 480);
-        context.drawImage(document.getElementById('img1'), 0, 0, 150, 200);
-        //context.drawImage(, 0, 0, 300, 30);
     });
     // //Save Image
-    var save_img = document.getElementById("save");
+/*    var save_img = document.getElementById("save");
     save.addEventListener("click", ()=>{
-        var data = canvas.toDataURL();
+        var data = canvasElement.toDataURL();
         data = data.replace("data:image/png;base64,","");
-        var request = new XMLHttpRequest();
+        var request = newXMLHttpRequest();
 
-    request.onload = () => {
-        console.log(request.responseText, request);
-    }
-    request.open("POST","/Camagru/save_img.php");
-    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    request.send("img=" + encodeURIComponent(data));
+        request.onload = () => {
+            console.log(request.responseText, request);
+        }
+        request.open("POST","/Camagru/save_img.php");
+        request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        request.send("img=" + encodeURIComponent(data));
+    });*/
+
     });
-    
+
+
     </script>
     <?php 
-    /*$data = photo;
+    $data = photo;
     
     list($type, $data) = explode(';', $data);
     list(, $data) = explode(',', $data);
     $data = base64_decode($data);
-    file_put_contents('images/image.png', $data);*/
+
+    file_put_contents('images/image.png', $data);
     ?>
     <?php include('footer.php') ?>
 </body>
