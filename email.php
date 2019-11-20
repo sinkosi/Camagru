@@ -1,3 +1,6 @@
 <?php
-    mail("sibonelo@mailinator.com", "Camagru: Email Confirmation", "Please confirm your email address");
+function confirmMail($name){
+
+}
+   // mail("sibonelo@mailinator.com", "Camagru: Email Confirmation", "Please confirm your email address");
 ?>

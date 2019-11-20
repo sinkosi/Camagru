@@ -18,6 +18,13 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     <?php include('header.php') ?>
     <br>
     <br>
+<!--Sticker SAMPLES-->
+    <div class="stickers">
+        <img src="./resources/pig.png" alt="pig" id="img1"/>
+        <img src="./resources/cheese.png" alt="cheese" id="img2"/>
+        <img src="./resources/table.png" alt="table" id="img3"/>
+    </div>
+    <br />
 <!--Stream video via webcam-->
     <div class="video-wrap">
         <video id="video" playsinline autoplay></video>
@@ -25,15 +32,15 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     <!--Trigger canvas Web API-->
     <div class="controller">
         <button id="snap">Capture</button>
-        <button id="retry">Retry</button>
+        <!--button id="retry">Retry</button-->
         <button id="save">Save</button>
+        <button onClick="document.getElementById('mySticker').src=''">Reset</button>
+        <button onClick="document.getElementById('mySticker').src='./resources/pig.png'">Peppa Pig </button>
     </div>
     <!-- Webcam video snapshot-->
     <canvas id="canvas" width="640" height="480"></canvas>
 
-    <div class="stickers">
-        <img src="./resources/pig.png" alt="chesse" id="img1"/>
-    </div>
+    
     <script>
     'use strict';
     
@@ -70,7 +77,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     var context = canvas.getContext('2d');
     snap.addEventListener("click", function(){
         context.drawImage(video, 0, 0, 640, 480);
-        context.drawImage(document.getElementById('img1'), 0, 0, 150, 200);
+        context.drawImage(document.getElementById('mySticker'), 0, 0, 150, 200);
         //context.drawImage(, 0, 0, 300, 30);
     });
     // //Save Image

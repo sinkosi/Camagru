@@ -31,7 +31,12 @@ if($query->num_rows > 0){
 ?>
 
     <img src="<?php echo $imageURL; ?>" alt="" height="320" width=""/>
-    <input type="text" name="comment">
+    <form>
+        <input type="hidden" name="uid" value="currUser">
+        <input type="hidden" name="date" value="">
+        <textarea name="message"></textarea><br>
+        <button type="submit" name="submit">Comment</button>
+    </form>
 <?php }
 }else{ ?>
     <p>No image(s) found...</p>

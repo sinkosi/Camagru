@@ -1,5 +1,5 @@
 <?php
-
+//setcookie('CSS_Cookie', 'http://bootstrapcdn.com/', time()+86400);
 include './config/createConnection.php';
 require './config/database.php';
 // Initialize the session
