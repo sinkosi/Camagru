@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 // Initialize the session
 session_start();
  
@@ -77,7 +80,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     var context = canvas.getContext('2d');
     snap.addEventListener("click", function(){
         context.drawImage(video, 0, 0, 640, 480);
-        context.drawImage(document.getElementById('mySticker'), 0, 0, 150, 200);
+       // context.drawImage(document.getElementById('mySticker'), 0, 0, 150, 200);
         //context.drawImage(, 0, 0, 300, 30);
     });
     // //Save Image
