@@ -137,11 +137,11 @@ header {
     background-color: orange;
 }
 
-.footer_main {
-    position: fixed;
+footer {
+    /* position: fixed;
     left: 0;
     bottom: 0;
-    width: 100%;
+    width: 100%; */
     display: block;
     background-color: #5154ff;
     text-align: right;
