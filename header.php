@@ -36,7 +36,7 @@ else{
 				<h1 href="index.php">Camagru</h1>
 				<div id="menu-bar-top-right">
 					<a href="profile.php"><?php echo htmlspecialchars($curr_name); ?></a>
-					<a href="profile.php"><img src="BBC Practice/images/grunt.png"></a>
+					<a href="profile.php"><img src="./resources/grunt.png"></a>
 				</div>
 			</div>
 			<div class="clear"></div>

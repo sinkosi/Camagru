@@ -26,11 +26,7 @@ $fileType = pathinfo($targetFilePath,PATHINFO_EXTENSION);*/
 
 RandomString();*/
 
-<<<<<<< HEAD
-$img_name = trim($_SESSION["username"].date("Y-m-d H:i:s").'.png', " ");
-=======
-$img_name = $_SESSION["username"].date("Y-m-d H:i:s").'.png';
->>>>>>> 24ca17765333240356f38bf266d3515de7136fea
+$img_name = $_SESSION["username"].date("Ymd-His").'.png';
 $img = base64_decode($_POST["img"]);
 $img = imagecreatefromstring($img);
 imagepng($img, "images/".$img_name);

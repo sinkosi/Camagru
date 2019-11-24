@@ -28,7 +28,7 @@ $fileType = pathinfo($targetFilePath,PATHINFO_EXTENSION);
 $div = explode('.', $fileName);
 $file_ext = strtolower(end($div));
 //$fileName = substr(md5(time()), 0, 10).'.'.$file_ext;
-$fileName = $_SESSION["username"].date("Y-m-d H:i:s").'.'.$file_ext;//.date("Y-m-d H:i:s");
+$fileName = $_SESSION["username"].date("Ymd-His").'.'.$file_ext;//.date("Y-m-d H:i:s");
 $targetFilePath = $targetDir . $fileName;
 
 if(isset($_POST["submit"]) && !empty($_FILES["file"]["name"])){
