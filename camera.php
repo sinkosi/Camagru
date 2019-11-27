@@ -39,7 +39,24 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
         <button id="snap">Capture</button>
         <button id="save">Save</button>
         <button id="clear">Clear</button>
-        <select id="mySelect" size="5">
+        <label>Sticker Left</label>
+        <select id="mySelect" size="1">
+            <option selected="selected" value="img0">None</option>
+            <option value="img1">Peppa Pig</option>
+            <option value="img2">Cheese</option>
+            <option value="img3">Splash</option>
+            <option value="img4">Flame</option>
+        </select>
+        <label>Sticker Right</label>
+        <select id="mySelect2" size="1">
+            <option selected="selected" value="img0">None</option>
+            <option value="img1">Peppa Pig</option>
+            <option value="img2">Cheese</option>
+            <option value="img3">Splash</option>
+            <option value="img4">Flame</option>
+        </select>
+        <label>Sticker Bottom</label>
+        <select id="mySelect3" size="1">
             <option selected="selected" value="img0">None</option>
             <option value="img1">Peppa Pig</option>
             <option value="img2">Cheese</option>
@@ -89,9 +106,13 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     //Draw Image
     var context = canvas.getContext('2d');
     snap.addEventListener("click", function(){
-        var mySticker = mySticker_function()
+        var mySticker = mySticker_function();
+        var mySticker2 = mySticker_function2();
+        var mySticker3 = mySticker_function3();
         context.drawImage(video, 0, 0, 640, 480);
         context.drawImage(document.getElementById(mySticker), 0, 0, 150, 200);
+        context.drawImage(document.getElementById(mySticker2), 430, 0, 150, 200);
+        context.drawImage(document.getElementById(mySticker3), 240, 320, 150, 200);
         //context.drawImage(, 0, 0, 300, 30);
     });
     //Reset Image
@@ -118,6 +139,14 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 
     function mySticker_function() {
         var x = document.getElementById("mySelect").value;
+        return x;
+    }
+    function mySticker_function2() {
+        var x = document.getElementById("mySelect2").value;
+        return x;
+    }
+    function mySticker_function3() {
+        var x = document.getElementById("mySelect3").value;
         return x;
     }
 

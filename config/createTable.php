@@ -11,7 +11,8 @@ try {
     // sql to create table
     //CREATE USER TABLE
     $sql = "CREATE TABLE IF NOT EXISTS user (
-    id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    #id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    userid INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(25) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     /*password VARCHAR(255) NOT NULL,*/
@@ -46,12 +47,13 @@ try {
     // set the PDO error mode to exception
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $sql = "CREATE TABLE IF NOT EXISTS images (
-    id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    imageid INT(11) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     source VARCHAR(255) COLLATE utf8_unicode_ci NOT NULL,
     uploaded_on datetime NOT NULL,
     status enum('1','0') COLLATE utf8_unicode_ci NOT NULL DEFAULT '1',
     userid INT(6) UNSIGNED NOT NULL,
-    FOREIGN KEY (userid) REFERENCES user(id)
+    #FOREIGN KEY (userid) REFERENCES user(id)
+    FOREIGN KEY (userid) REFERENCES user(userid)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
     $conn->exec($sql);
 
@@ -64,8 +66,8 @@ try {
     userid INT(6) UNSIGNED,
     imageid INT(11) UNSIGNED NOT NULL,
     text VARCHAR(100) NOT NULL,
-    FOREIGN KEY (userid) REFERENCES user(id),
-    FOREIGN KEY (imageid) REFERENCES images(id)
+    FOREIGN KEY (userid) REFERENCES user(userid),
+    FOREIGN KEY (imageid) REFERENCES images(imageid)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
     $conn->exec($sql);
     // use exec() because no results are returned

@@ -40,7 +40,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     // Validate credentials
     if(empty($username_err) && empty($password_err)){
         // Prepare a select statement
-        $sql = "SELECT id, username, email, fullname, surname, verified, notifications, password FROM user WHERE username = :username";
+        $sql = "SELECT userid, username, email, fullname, surname, verified, notifications, password FROM user WHERE username = :username";
         
         if($stmt = $conn->prepare($sql)){
             // Bind variables to the prepared statement as parameters
@@ -54,7 +54,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 // Check if username exists, if yes then verify password
                 if($stmt->rowCount() == 1){
                     if($row = $stmt->fetch()){
-                        $id = $row["id"];
+                        $id = $row["userid"];
                         $username = $row["username"];
                         $user_email = $row["email"];
                         $firstname = $row["fullname"];

@@ -1,12 +1,171 @@
 <?php
 // Initialize the session
-//include('session_update.php');
-session_start();
 include('session_update.php');
+session_start();
+//include('session_update.php');
 // Check if the user is logged in, if not then redirect him to login page
 if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     header("location: login.php");
     exit;
+}
+
+
+//VALIDATE YOUR UPDATES HERE
+// Include config file
+require_once ('./config/createConnection.php');
+ 
+// Define variables and initialize with empty values
+$fullname = $surname = $username = $email = $password = $confirm_password = "";
+$fullname_err = $surname_err = $username_err = $email_err = $password_err = $confirm_password_err = "";
+$userid = $_SESSION["id"];
+
+// Processing form data when form is submitted
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+    
+    //Validate FirstName
+    if(empty(trim($_POST["fullname"]))){
+        $fullname_err = "Please enter a First Name.";
+    } else{
+        // Prepare a select statement
+        $sql = "SELECT id FROM user WHERE fullname = :fullname";
+        
+        if($stmt = $conn->prepare($sql)){
+            // Bind variables to the prepared statement as parameters
+            $stmt->bindParam(":fullname", $param_fullname, PDO::PARAM_STR);
+            
+            // Set parameters
+            $param_fullname = trim($_POST["fullname"]);
+            
+            // Attempt to execute the prepared statement
+            if($stmt->execute()){
+                $fullname = trim($_POST["fullname"]);
+            } else{
+                echo "Oops! Something went wrong. Please try again later.";
+            }
+        }
+        // Close statement
+        unset($stmt);
+    }
+
+    //Validate Surname
+    if(empty(trim($_POST["surname"]))){
+        $surname_err = "Please enter a Surname.";
+    } else{
+        // Prepare a select statement
+        $sql = "SELECT id FROM user WHERE surname = :surname";
+        
+        if($stmt = $conn->prepare($sql)){
+            // Bind variables to the prepared statement as parameters
+            $stmt->bindParam(":surname", $param_surname, PDO::PARAM_STR);
+            
+            // Set parameters
+            $param_surname = trim($_POST["surname"]);
+            
+            // Attempt to execute the prepared statement
+            if($stmt->execute()){
+                $surname = trim($_POST["surname"]);
+            } else{
+                echo "Oops! Something went wrong. Please try again later.";
+            }
+        }
+            
+        // Close statement
+        unset($stmt);
+    }
+
+    // Validate username
+    if(empty(trim($_POST["username"]))){
+        $username_err = "Please enter a username.";
+    } else{
+        // Prepare a select statement
+        $sql = "SELECT id FROM user WHERE username = :username";
+        
+        if($stmt = $conn->prepare($sql)){
+            // Bind variables to the prepared statement as parameters
+            $stmt->bindParam(":username", $param_username, PDO::PARAM_STR);
+            
+            // Set parameters
+            $param_username = trim($_POST["username"]);
+            
+            // Attempt to execute the prepared statement
+            if($stmt->execute()){
+                if($stmt->rowCount() == 1){
+                    $username_err = "This username is already taken.";
+                } else{
+                    $username = trim($_POST["username"]);
+                }
+            } else{
+                echo "Oops! Something went wrong. Please try again later.";
+            }
+        }
+        // Close statement
+        unset($stmt);
+    }
+
+    // Validate email
+    if(empty(trim($_POST['email']))){
+        $email_err = "Please enter a valid email.";
+    } else{
+        // Prepare a select statement
+        $sql = "SELECT id FROM user WHERE email = :email";
+        
+        if($stmt = $conn->prepare($sql)){
+            // Bind variables to the prepared statement as parameters
+            $stmt->bindParam(":email", $param_email, PDO::PARAM_STR);
+            
+            // Set parameters
+            $param_email = trim($_POST["email"]);
+            
+            // Attempt to execute the prepared statement
+            if($stmt->execute()){
+                if($stmt->rowCount() == 1){
+                    $email_err = "This E-mail address is already registered.";
+                } else{
+                    $email = trim($_POST["email"]);
+                }
+            } else{
+                echo "Oops! Something went wrong. Please try again later.";
+            }
+        }    
+        // Close statement
+        unset($stmt);
+    }
+    // Check input errors before inserting in database
+    if(empty($fullname_err) && empty($surname_err) && empty($username_err) && empty($email_err) && empty($password_err) && empty($confirm_password_err)){
+        
+        // Prepare an insert statement
+        $sql = "UPDATE user SET user (username, password, email, fullname, surname) VALUES (:username, :email, :fullname, :surname) WHERE user.id=:userid";
+         
+        if($stmt = $conn->prepare($sql)){
+            // Bind variables to the prepared statement as parameters
+            $stmt->bindParam(":username", $param_username, PDO::PARAM_STR);
+            //$stmt->bindParam(":password", $param_password, PDO::PARAM_STR);
+            $stmt->bindParam(":email", $param_email, PDO::PARAM_STR);
+            $stmt->bindParam(":fullname", $param_fullname, PDO::PARAM_STR);
+            $stmt->bindParam(":surname", $param_surname, PDO::PARAM_STR);
+            
+            // Set parameters
+            $param_username = $username;
+            $param_email = $email;
+            $param_fullname = $fullname;
+            $param_surname = $surname;
+
+            // Attempt to execute the prepared statement
+            if($stmt->execute()){
+                // Redirect to login page
+                mail($email, "Camagru: Email Update Confirmation", "Please confirm your email address");
+                header("location: profile.php");
+            } else{
+                echo "Something went wrong. Please try again later.";
+            }
+        }
+         
+        // Close statement
+        unset($stmt);
+    }
+    
+    // Close connection
+    unset($conn);
 }
 ?>
  
@@ -55,6 +214,18 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                     <span class="help-block"><?php echo $email_err; ?></span>
                 </div>
                 <div class="form-group">
+                    <label>Account Status</label><br>
+                    <?php if ($_SESSION["verified"] == "0") : ?>
+                        <select size="1">
+                            <option selected="selected">NOT VERIFIED</option>
+                        </select>
+                    <?php elseif ($_SESSION["verified"] == "1") : ?>
+                        <select size="1">
+                            <option selected="selected">VERIFIED</option>
+                        </select>
+                    <?php endif; ?>
+                    
+                    <br>
                     <label>Notifications</label><br>
                     <!--input type="checkbox" name="notification" value="0" checked=0> Receive Comment Notifications<br-->
                     <?php if ($_SESSION["notifications"] == "1") : ?>
@@ -88,11 +259,11 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
         var txt;
         var r = confirm("Are you sure you wish to Delete your Account?");
         if (r == true) {
-            txt = "You pressed OK!";
+            window.location="delete_account.php";
         } else {
             txt = "You pressed Cancel!";
         }
-        document.getElementById("demo").innerHTML = txt;
+        
     }
     </script>
 </body>

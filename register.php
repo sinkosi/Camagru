@@ -35,7 +35,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $fullname_err = "Please enter a First Name.";
     } else{
         // Prepare a select statement
-        $sql = "SELECT id FROM user WHERE fullname = :fullname";
+        $sql = "SELECT userid FROM user WHERE fullname = :fullname";
         
         if($stmt = $conn->prepare($sql)){
             // Bind variables to the prepared statement as parameters
@@ -60,7 +60,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $surname_err = "Please enter a Surname.";
     } else{
         // Prepare a select statement
-        $sql = "SELECT id FROM user WHERE surname = :surname";
+        $sql = "SELECT userid FROM user WHERE surname = :surname";
         
         if($stmt = $conn->prepare($sql)){
             // Bind variables to the prepared statement as parameters
@@ -86,7 +86,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $username_err = "Please enter a username.";
     } else{
         // Prepare a select statement
-        $sql = "SELECT id FROM user WHERE username = :username";
+        $sql = "SELECT userid FROM user WHERE username = :username";
         
         if($stmt = $conn->prepare($sql)){
             // Bind variables to the prepared statement as parameters
@@ -115,7 +115,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $email_err = "Please enter a valid email.";
     } else{
         // Prepare a select statement
-        $sql = "SELECT id FROM user WHERE email = :email";
+        $sql = "SELECT userid FROM user WHERE email = :email";
         
         if($stmt = $conn->prepare($sql)){
             // Bind variables to the prepared statement as parameters
