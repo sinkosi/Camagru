@@ -22,10 +22,12 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     <br>
     <br>
 <!--Sticker SAMPLES-->
-    <div class="stickers">
-        <img src="./resources/pig.png" alt="pig" id="img1"/>
-        <img src="./resources/cheese.png" alt="cheese" id="img2"/>
-        <img src="./resources/table.png" alt="table" id="img3"/>
+    <div class="stickers" style="height: 30px">
+        <img src="./resources/blank.png" alt="none" id="img0"/>
+        <img src="./resources/pig.png" width="1" height="1" alt="pig" id="img1"/>
+        <img src="./resources/cheese.png" width="1" height="1" alt="cheese" id="img2"/>
+        <img src="./resources/flame.png" width="1" height="1" alt="flame" id="img4" />
+        <img src="./resources/splash.png" width="1" height="1" alt="splash" id="img3" />
     </div>
     <br />
 <!--Stream video via webcam-->
@@ -35,10 +37,15 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     <!--Trigger canvas Web API-->
     <div class="controller">
         <button id="snap">Capture</button>
-        <!--button id="retry">Retry</button-->
         <button id="save">Save</button>
-        <button onClick="document.getElementById('mySticker').src=''">Reset</button>
-        <button onClick="document.getElementById('mySticker').src='./resources/pig.png'">Peppa Pig </button>
+        <button id="clear">Clear</button>
+        <select id="mySelect" size="5">
+            <option selected="selected" value="img0">None</option>
+            <option value="img1">Peppa Pig</option>
+            <option value="img2">Cheese</option>
+            <option value="img3">Splash</option>
+            <option value="img4">Flame</option>
+        </select>
     </div>
     <!-- Webcam video snapshot-->
     <canvas id="canvas" width="640" height="480"></canvas>
@@ -47,9 +54,11 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     <script>
     'use strict';
     
+    //var mySticker = "img0";
     const video = document.getElementById('video');
     const canvas = document.getElementById('canvas');
     const snap = document.getElementById('snap');
+    //const reset = document.getElementById('reset');
     const errorMsgElement = document.getElementById('spanErrorMsg');
     var photo = null;
     const constraints = {
@@ -76,13 +85,22 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     }
     // Load init
     init();
+    
     //Draw Image
     var context = canvas.getContext('2d');
     snap.addEventListener("click", function(){
+        var mySticker = mySticker_function()
         context.drawImage(video, 0, 0, 640, 480);
-       // context.drawImage(document.getElementById('mySticker'), 0, 0, 150, 200);
+        context.drawImage(document.getElementById(mySticker), 0, 0, 150, 200);
         //context.drawImage(, 0, 0, 300, 30);
     });
+    //Reset Image
+    //var context = canvas.getContext('2d');
+    document.getElementById('clear').addEventListener('click', function() {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+      }, false);
+
+
     // //Save Image
     var save_img = document.getElementById("save");
     save.addEventListener("click", ()=>{
@@ -97,7 +115,12 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     request.send("img=" + encodeURIComponent(data));
     });
-    
+
+    function mySticker_function() {
+        var x = document.getElementById("mySelect").value;
+        return x;
+    }
+
     </script>
     <?php 
     /*$data = photo;

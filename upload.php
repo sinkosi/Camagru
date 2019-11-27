@@ -1,9 +1,9 @@
 <?php
-
+/*
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-
+*/
 // Initialize the session
 session_start();
  
@@ -56,7 +56,7 @@ if(isset($_POST["submit"]) && !empty($_FILES["file"]["name"])){
 }
 
 // Display status message
-echo $statusMsg;
+//echo $statusMsg;
 ?>
 
 <html>
@@ -65,6 +65,8 @@ echo $statusMsg;
 </head>
 <body>
     <?php include('header.php') ?>
+
+    <br><?php echo $statusMsg ?><br>
     <div class="wrapper">
         <h2>Upload Files</h2>
         <p>Please Upload an image using the special below</p>

@@ -28,6 +28,7 @@ else{
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="View/stylesheet.css">
+	<link rel="icon" href="./resources/favicon.ico">
 </head>
 <header>
     <div class="clear"></div>

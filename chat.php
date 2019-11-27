@@ -3,6 +3,7 @@ include './config/createConnection.php';
 require './config/database.php';
 // Initialize the session
 session_start();
+
 ?>
 
 <script>

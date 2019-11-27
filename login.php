@@ -40,7 +40,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     // Validate credentials
     if(empty($username_err) && empty($password_err)){
         // Prepare a select statement
-        $sql = "SELECT id, username, password FROM user WHERE username = :username";
+        $sql = "SELECT id, username, email, fullname, surname, verified, notifications, password FROM user WHERE username = :username";
         
         if($stmt = $conn->prepare($sql)){
             // Bind variables to the prepared statement as parameters
@@ -56,6 +56,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     if($row = $stmt->fetch()){
                         $id = $row["id"];
                         $username = $row["username"];
+                        $user_email = $row["email"];
+                        $firstname = $row["fullname"];
+                        $lastname = $row["surname"];
+                        $is_verified = $row["verified"];
+                        $notifications = $row["notifications"];
                         $hashed_password = $row["password"];
                         if(password_verify($password, $hashed_password)){
                             // Password is correct, so start a new session
@@ -64,8 +69,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             // Store data in session variables
                             $_SESSION["loggedin"] = true;
                             $_SESSION["id"] = $id;
-                            $_SESSION["username"] = $username;                            
-                            
+                            $_SESSION["username"] = $username;
+                            $_SESSION["email"] = $user_email;
+                            $_SESSION["verified"] = $is_verified;
+                            $_SESSION["notifications"] = $notifications;
+                            $_SESSION["firstname"] = $firstname;
+                            $_SESSION["surname"] = $lastname;
                             // Redirect user to welcome page
                             header("location: index.php");
                         } else{
