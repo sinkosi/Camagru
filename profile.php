@@ -9,6 +9,12 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     exit;
 }
 
+/*if (isset($_SESSION["verified"]) && $_SESSION["verified"] === "0")
+{
+    header("location: checkmail.php");
+    exit;
+}*/
+
 
 //VALIDATE YOUR UPDATES HERE
 // Include config file
@@ -250,7 +256,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 <button onclick="Del_Account()" class="btn btn-danger">Delete My Account</a>
             </p>
         </div>
-    
+    <?php if ($_SESSION["verified"] == "0") :?>
+    <div>
+        <?php include('checkmail.php') ?>
+        <br>
+    </div>
+    <?php endif; ?>
     <div>
         <?php include('footer.php') ?>
     </div>

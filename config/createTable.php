@@ -22,6 +22,7 @@ try {
     email VARCHAR(100) NOT NULL UNIQUE,
     fullname VARCHAR(50) NOT NULL,
     surname VARCHAR(50) NOT NULL,
+    vc VARCHAR(255) NOT NULL,
     reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
     $conn->exec($sql);
@@ -81,8 +82,8 @@ try {
     userid INT(6) UNSIGNED NOT NULL,
     imageid INT(10) UNSIGNED NOT NULL,
     text VARCHAR(100) NOT NULL,
-    FOREIGN KEY (userid) REFERENCES user(id),
-    FOREIGN KEY (imageid) REFERENCES images(id)
+    FOREIGN KEY (userid) REFERENCES user(userid),
+    FOREIGN KEY (imageid) REFERENCES images(imageid)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
     $conn->exec($sql);
 

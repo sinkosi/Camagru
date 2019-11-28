@@ -158,11 +158,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         }
     }
     
+    $vc = hash('whirlpool', rand(0, 10000));
+
     // Check input errors before inserting in database
     if(empty($fullname_err) && empty($surname_err) && empty($username_err) && empty($email_err) && empty($password_err) && empty($confirm_password_err)){
         
         // Prepare an insert statement
-        $sql = "INSERT INTO user (username, password, email, fullname, surname) VALUES (:username, :password, :email, :fullname, :surname)";
+        $sql = "INSERT INTO user (username, password, email, fullname, surname, vc) VALUES (:username, :password, :email, :fullname, :surname, :vc)";
          
         if($stmt = $conn->prepare($sql)){
             // Bind variables to the prepared statement as parameters
@@ -171,18 +173,20 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $stmt->bindParam(":email", $param_email, PDO::PARAM_STR);
             $stmt->bindParam(":fullname", $param_fullname, PDO::PARAM_STR);
             $stmt->bindParam(":surname", $param_surname, PDO::PARAM_STR);
+            $stmt->bindParam(":vc", $param_vc, PDO::PARAM_STR);
             
             // Set parameters
             $param_username = $username;
             $param_email = $email;
             $param_fullname = $fullname;
             $param_surname = $surname;
+            $param_vc = $vc;
             $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
             
             // Attempt to execute the prepared statement
             if($stmt->execute()){
                 // Redirect to login page
-                mail($email, "Camagru: Email Confirmation", "Please confirm your email address");
+                mail($email, "Camagru: Email Confirmation", "Camagru Welcomes You\n\nPlease confirm your email address by clicking the attached link: http://localhost:8080/camagru/verify.php?verify=1&vc=".$vc."&email=".$email);
                 header("location: login.php");
             } else{
                 echo "Something went wrong. Please try again later.";

@@ -1,9 +1,57 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-//echo ini_get('display_errors');
+include_once ('config/createConnection.php');
 
+if (isset($_GET['verify']) && $_GET['verify'] == 1 && isset($_GET['email']) && isset($_GET['vc']))
+{
+$email = $_GET['email'];
+$vc = $_GET['vc'];
+try
+{
+    //veryfying the user in the database
+    // $conn = new PDO($db_dsn, $db_username, $db_password);
+    // $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $stmt = $conn->prepare("SELECT * FROM user WHERE email = :email");
+    $stmt->execute(array(':email' => $email));
+    //getting the row
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    if (count($result))
+    {
+        foreach($result as $row)
+        {
+            if ($row['vc'] == $vc)
+            {
+                try
+                {
+                    $stmt = $conn->prepare('UPDATE user SET verified = :verified WHERE email = :email');
+                    $stmt->execute(array(':verified' => '1', ':email' => $email));
+                    
+                    echo ("<script>alert('Account is now active!')</script>");
+                }
+                catch(PDOException $e)
+                {
+                    header("Location: index.php?con=error");
+                    exit();
+                }
+            }
+            else
+            {
+                header("Location: index.php?code=-1");
+                exit();
+            }
+        }
+    }
+    else
+    {
+        header("Location: index.php?code=-1");
+        exit();
+    }
+}
+catch(PDOException $e)
+{
+    header("Location: index.php?con=error");
+    exit();
+}
+}
 // Initialize the session
 session_start();
  
@@ -101,8 +149,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     // Close connection
     unset($pdo);
 }
+
 ?>
- 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -115,10 +164,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     </style>
 </head>
 <body>
-    <?php include('header.php') ?>
+    <div>
+        <?php include('header.php') ?>
+    </div>
     <div class="wrapper">
         <h2>Login</h2>
-        <p>Please fill in your credentials to login.</p>
+        
+        <p>Your Account is <strong>Verified</strong> Please fill in your credentials to login.</p>
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
                 <label>Username</label>
@@ -137,6 +189,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <p>Forgot Password? <a href="reset-password.php" class="btn btn-warning">Reset Your Password</a>.</p>
         </form>
     </div>
-    <?php include('footer.php') ?>
+    <?php include ('footer.php') ?>
 </body>
 </html>
