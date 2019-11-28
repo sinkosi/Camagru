@@ -134,7 +134,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 <input type="submit" class="btn btn-primary" value="Login">
             </div>
             <p>Don't have an account? <a href="register.php">Sign up now</a>.</p>
-            <p>Forgot Password? <a href="reset-password.php" class="btn btn-warning">Reset Your Password</a>.</p>
+            <p>Forgot Password? <a href="forgot.php" class="btn btn-warning">Reset Your Password</a>.</p>
         </form>
     </div>
     <?php include('footer.php') ?>

@@ -1,26 +1,19 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-// Initialize the session
-session_start();
- 
-// Check if the user is logged in, if not then redirect to login page
-if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
-    header("location: login.php");
-    exit;
-}
- 
+
 // Include config file
 require_once "config/createConnection.php";
- 
+
+$email = 'thoko@mailinator.com';
 // Define variables and initialize with empty values
 $new_password = $confirm_password = "";
 $new_password_err = $confirm_password_err = "";
- 
+if (isset($_GET['email']) && isset($_GET['vc'])){
+    $email = $GET['email'];
+    $vc = $GET['vc'];
+}
+
 // Processing form data when form is submitted
-if($_SERVER["REQUEST_METHOD"] == "POST"){
- 
+if($_SERVER["REQUEST_METHOD"] == "POST" || (!empty($email) && !empty($vc))){
     // Validate new password
     if(empty(trim($_POST["new_password"]))){
         $new_password_err = "Please enter the new password.";     
@@ -43,22 +36,23 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     // Check input errors before updating the database
     if(empty($new_password_err) && empty($confirm_password_err)){
         // Prepare an update statement
-        $sql = "UPDATE user SET password = :password WHERE userid = :id";
+        $sql = "UPDATE user SET password = :password WHERE email = :email";
         
         if($stmt = $conn->prepare($sql)){
             // Bind variables to the prepared statement as parameters
             $stmt->bindParam(":password", $param_password, PDO::PARAM_STR);
-            $stmt->bindParam(":id", $param_id, PDO::PARAM_INT);
+            $stmt->bindParam(":email", $param_email, PDO::PARAM_INT);
             
             // Set parameters
             $param_password = password_hash($new_password, PASSWORD_DEFAULT);
-            $param_id = $_SESSION["id"];
+            $param_email = $email;
             
             // Attempt to execute the prepared statement
             if($stmt->execute()){
                 // Password updated successfully. Destroy the session, and redirect to login page
-                session_destroy();
+                //session_destroy();
                 header("location: login.php");
+                echo ($email);
                 exit();
             } else{
                 echo "Oops! Something went wrong. Please try again later.";
@@ -73,7 +67,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     unset($pdo);
 }
 ?>
- 
+<?php
+/*
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -91,7 +86,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <div class="wrapper">
         <h2>Reset Password</h2>
         <p>Please fill out this form to reset your password.</p>
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post"> 
+        <form method="post"> 
             <div class="form-group <?php echo (!empty($new_password_err)) ? 'has-error' : ''; ?>">
                 <label>New Password</label>
                 <input type="password" name="new_password" class="form-control" value="<?php echo $new_password; ?>">
@@ -104,10 +99,36 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             </div>
             <div class="form-group">
                 <input type="submit" class="btn btn-primary" value="Submit">
-                <a class="btn btn-link" href="welcome.php">Cancel</a>
+                <a class="btn btn-link" href="login.php">Cancel</a>
             </div>
         </form>
     </div>
     <?php include('footer.php') ?>
+</body>
+</html>*/?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
+    <style type="text/css">
+        body{ font: 14px sans-serif; }
+        .wrapper{ margin: auto; width: 350px; padding: 20px; }
+    </style>
+</head>
+<body>
+    <?php include('header.php') ?>
+
+    <div class="form">
+    <h2>Enter your email</h2>
+    <form action="config/forgotten.php" method="POST">
+        <input type="email" name="email" placeholder="E-mail"/>
+        <button type="submit" name="submit">Submit</button>
+        <button formaction="login.php">Login</button>
+    </form>
+    
+</div>
 </body>
 </html>
