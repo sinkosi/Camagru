@@ -1,7 +1,7 @@
 <?php
-ini_set('display_errors', 1);
+/*ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+error_reporting(E_ALL);*/
 // Initialize the session
 include('session_update.php');
 //session_start();
@@ -24,13 +24,19 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 require_once ('./config/createConnection.php');
  
 // Define variables and initialize with empty values
-$fullname = $surname = $username = $email = $password = $confirm_password = "";
-$fullname_err = $surname_err = $username_err = $email_err = $password_err = $confirm_password_err = "";
+$fullname = $surname = $username = $email = $notifications = "";
+$fullname_err = $surname_err = $username_err = $email_err = "";
 $userid = $_SESSION["id"];
 
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-    
+    /*if ($_POST['notifications'] == "0")
+        $_POST['notifications'] = "0";
+    else
+        $_POST['notifications'] = "1";
+    echo "<pre>";
+    print_r($_POST);
+    echo "</pre>";*/
     //Validate FirstName
     if(empty(trim($_POST["fullname"]))){
         $fullname_err = "Please enter a First Name.";
@@ -100,8 +106,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             //$param_id = $_SESSION["id"];
             // Attempt to execute the prepared statement
             if($stmt->execute()){
-                if($stmt->rowCount() == 1){
-                    $username_err = "This username is already taken. Possibly by You";
+                if($stmt->rowCount() == 1 && $param_username !== $_SESSION["username"]){
+                    $username_err = "This username is already taken.";
+                    //$username_err = print_r($_POST);
                 } else{
                     $username = trim($_POST["username"]);
                 }
@@ -129,10 +136,38 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $param_id = $_SESSION["id"];
             // Attempt to execute the prepared statement
             if($stmt->execute()){
-                if($stmt->rowCount() == 1){
-                    $email_err = "This E-mail address is already registered. Possibly By You";
+                if($stmt->rowCount() == 1 && $param_email !== $_SESSION["email"]){
+                    $email_err = "This E-mail address is already registered.";
                 } else{
                     $email = trim($_POST["email"]);
+                }
+            } else{
+                echo "Oops! Something went wrong. Please try again later.";
+            }
+        }    
+        // Close statement
+        unset($stmt);
+    }
+
+    if($_POST['notifications'] !== "0" && $_POST['notifications'] !== "1"){
+        $fullname_err = "Notification error";
+    } else{
+        // Prepare a select statement
+        //$sql = "UPDATE user SET email = :email WHERE userid = :userid";
+        $sql = "SELECT userid FROM user WHERE notifications = :notifications";
+        if($stmt = $conn->prepare($sql)){
+            // Bind variables to the prepared statement as parameters
+            $stmt->bindParam(":notifications", $param_notifications, PDO::PARAM_INT);
+            //$stmt->bindParam(":userid", $param_id, PDO::PARAM_INT);
+            // Set parameters
+            $param_notifications = $_POST["notifications"];
+            $param_id = $_SESSION["id"];
+            // Attempt to execute the prepared statement
+            if($stmt->execute()){
+                if($stmt->rowCount() == 1 && $_SESSION["verified"] == "0"){
+                    $fullname_err = "Unable to remove notifications, Please verify Account";
+                } else{
+                    $notifications = ($_POST["notifications"]);
                 }
             } else{
                 echo "Oops! Something went wrong. Please try again later.";
@@ -146,7 +181,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     if(empty($fullname_err) && empty($surname_err) && empty($username_err) && empty($email_err)){
         
         // Prepare an insert statement
-        $sql = "UPDATE user SET username = :username, email = :email, fullname = :fullname, surname = :surname WHERE userid=:userid";
+        $sql = "UPDATE user SET username = :username, email = :email, fullname = :fullname, surname = :surname, notifications = :notifications  WHERE userid=:userid";
                  
         if($stmt = $conn->prepare($sql)){
             // Bind variables to the prepared statement as parameters
@@ -155,6 +190,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $stmt->bindParam(":email", $param_email, PDO::PARAM_STR);
             $stmt->bindParam(":fullname", $param_fullname, PDO::PARAM_STR);
             $stmt->bindParam(":surname", $param_surname, PDO::PARAM_STR);
+            $stmt->bindParam(":notifications", $param_notifications, PDO::PARAM_INT);
             $stmt->bindParam(":userid", $param_id, PDO::PARAM_INT);
             
             // Set parameters
@@ -162,6 +198,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $param_email = $email;
             $param_fullname = $fullname;
             $param_surname = $surname;
+            $param_notifications = $notifications;
             $param_id = $_SESSION["id"];
 
             // Attempt to execute the prepared statement
@@ -242,21 +279,22 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     <br>
                     <label>Notifications</label><br>
                     <!--input type="checkbox" name="notification" value="0" checked=0> Receive Comment Notifications<br-->
+
                     <?php if ($_SESSION["notifications"] == "1") : ?>
-                        <select size="1">
-                            <option selected="selected">Yes</option>
-                            <option>No</option>
+                        <select name="notifications"size="1">
+                            <option value="1" selected="selected">Yes</option>
+                            <option value="0">No</option>
                         </select>
                     <?php elseif ($_SESSION["notifications"] == "0") : ?>
-                        <select size="1">
-                            <option>Yes</option>
-                            <option selected="selected">No</option>
+                        <select name="notifications" size="1">
+                            <option value="1">Yes</option>
+                            <option value="0" selected="selected">No</option>
                         </select>
                     <?php endif; ?>
                 </div>
                 <div class="form-group">
                 <a href="reset-password.php" class="btn btn-warning">Reset Your Password</a>
-                <input onclick="location.href='/chat.php';" type="submit" class="btn btn-primary" value="Submit">
+                <input type="submit" class="btn btn-primary" value="Submit">
                 </div>
                 
             </form>
