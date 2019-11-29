@@ -1,19 +1,23 @@
 <?php
-
+/*ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);*/
+//echo ini_get('display_errors');
 // Include config file
 require_once "config/createConnection.php";
 
-$email = 'thoko@mailinator.com';
+$email = '';
 // Define variables and initialize with empty values
 $new_password = $confirm_password = "";
 $new_password_err = $confirm_password_err = "";
 if (isset($_GET['email']) && isset($_GET['vc'])){
-    $email = $GET['email'];
-    $vc = $GET['vc'];
+    $email = $_GET['email'];
+    $vc = $_GET['vc'];
 }
 
 // Processing form data when form is submitted
-if($_SERVER["REQUEST_METHOD"] == "POST" || (!empty($email) && !empty($vc))){
+//if($_SERVER["REQUEST_METHOD"] == "POST" || 
+if (!empty($email) && !empty($vc)){
     // Validate new password
     if(empty(trim($_POST["new_password"]))){
         $new_password_err = "Please enter the new password.";     
@@ -41,7 +45,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" || (!empty($email) && !empty($vc))){
         if($stmt = $conn->prepare($sql)){
             // Bind variables to the prepared statement as parameters
             $stmt->bindParam(":password", $param_password, PDO::PARAM_STR);
-            $stmt->bindParam(":email", $param_email, PDO::PARAM_INT);
+            $stmt->bindParam(":email", $param_email, PDO::PARAM_STR);
             
             // Set parameters
             $param_password = password_hash($new_password, PASSWORD_DEFAULT);
@@ -51,8 +55,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST" || (!empty($email) && !empty($vc))){
             if($stmt->execute()){
                 // Password updated successfully. Destroy the session, and redirect to login page
                 //session_destroy();
+                echo ("<script>alert('New Password is now active!')</script>");
                 header("location: login.php");
-                echo ($email);
                 exit();
             } else{
                 echo "Oops! Something went wrong. Please try again later.";
@@ -67,8 +71,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST" || (!empty($email) && !empty($vc))){
     unset($pdo);
 }
 ?>
-<?php
-/*
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -105,9 +109,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST" || (!empty($email) && !empty($vc))){
     </div>
     <?php include('footer.php') ?>
 </body>
-</html>*/?>
+</html>
 
-<!DOCTYPE html>
+<!--DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -119,7 +123,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" || (!empty($email) && !empty($vc))){
     </style>
 </head>
 <body>
-    <?php include('header.php') ?>
+
 
     <div class="form">
     <h2>Enter your email</h2>
@@ -131,4 +135,4 @@ if($_SERVER["REQUEST_METHOD"] == "POST" || (!empty($email) && !empty($vc))){
     
 </div>
 </body>
-</html>
+</html-->

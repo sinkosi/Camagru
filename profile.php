@@ -1,7 +1,10 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 // Initialize the session
 include('session_update.php');
-session_start();
+//session_start();
 //include('session_update.php');
 // Check if the user is logged in, if not then redirect him to login page
 if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
@@ -33,14 +36,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $fullname_err = "Please enter a First Name.";
     } else{
         // Prepare a select statement
-        $sql = "SELECT id FROM user WHERE fullname = :fullname";
-        
+        //$sql = "UPDATE user SET fullname = :fullname WHERE userid = :userid";
+        $sql = "SELECT userid FROM user WHERE fullname = :fullname";
         if($stmt = $conn->prepare($sql)){
             // Bind variables to the prepared statement as parameters
             $stmt->bindParam(":fullname", $param_fullname, PDO::PARAM_STR);
-            
+            //$stmt->bindParam(":userid", $param_id, PDO::PARAM_INT);
             // Set parameters
             $param_fullname = trim($_POST["fullname"]);
+            $param_id = $_SESSION["id"];
             
             // Attempt to execute the prepared statement
             if($stmt->execute()){
@@ -58,14 +62,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $surname_err = "Please enter a Surname.";
     } else{
         // Prepare a select statement
-        $sql = "SELECT id FROM user WHERE surname = :surname";
-        
+        //$sql = "UPDATE user SET surname = :surname WHERE userid = :userid";
+        $sql = "SELECT userid FROM user WHERE surname = :surname";
         if($stmt = $conn->prepare($sql)){
             // Bind variables to the prepared statement as parameters
             $stmt->bindParam(":surname", $param_surname, PDO::PARAM_STR);
-            
+            //$stmt->bindParam(":userid", $param_id, PDO::PARAM_INT);
             // Set parameters
             $param_surname = trim($_POST["surname"]);
+            $param_id = $_SESSION["id"];
             
             // Attempt to execute the prepared statement
             if($stmt->execute()){
@@ -84,19 +89,19 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $username_err = "Please enter a username.";
     } else{
         // Prepare a select statement
-        $sql = "SELECT id FROM user WHERE username = :username";
-        
+        //$sql = "UPDATE user SET username = :username WHERE userid = :userid";
+        $sql = "SELECT userid FROM user WHERE username = :username";
         if($stmt = $conn->prepare($sql)){
             // Bind variables to the prepared statement as parameters
             $stmt->bindParam(":username", $param_username, PDO::PARAM_STR);
-            
+            //$stmt->bindParam(":userid", $param_id, PDO::PARAM_INT);
             // Set parameters
             $param_username = trim($_POST["username"]);
-            
+            //$param_id = $_SESSION["id"];
             // Attempt to execute the prepared statement
             if($stmt->execute()){
                 if($stmt->rowCount() == 1){
-                    $username_err = "This username is already taken.";
+                    $username_err = "This username is already taken. Possibly by You";
                 } else{
                     $username = trim($_POST["username"]);
                 }
@@ -113,19 +118,19 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $email_err = "Please enter a valid email.";
     } else{
         // Prepare a select statement
-        $sql = "SELECT id FROM user WHERE email = :email";
-        
+        //$sql = "UPDATE user SET email = :email WHERE userid = :userid";
+        $sql = "SELECT userid FROM user WHERE email = :email";
         if($stmt = $conn->prepare($sql)){
             // Bind variables to the prepared statement as parameters
             $stmt->bindParam(":email", $param_email, PDO::PARAM_STR);
-            
+            //$stmt->bindParam(":userid", $param_id, PDO::PARAM_INT);
             // Set parameters
             $param_email = trim($_POST["email"]);
-            
+            $param_id = $_SESSION["id"];
             // Attempt to execute the prepared statement
             if($stmt->execute()){
                 if($stmt->rowCount() == 1){
-                    $email_err = "This E-mail address is already registered.";
+                    $email_err = "This E-mail address is already registered. Possibly By You";
                 } else{
                     $email = trim($_POST["email"]);
                 }
@@ -136,12 +141,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         // Close statement
         unset($stmt);
     }
+
     // Check input errors before inserting in database
-    if(empty($fullname_err) && empty($surname_err) && empty($username_err) && empty($email_err) && empty($password_err) && empty($confirm_password_err)){
+    if(empty($fullname_err) && empty($surname_err) && empty($username_err) && empty($email_err)){
         
         // Prepare an insert statement
-        $sql = "UPDATE user SET user (username, password, email, fullname, surname) VALUES (:username, :email, :fullname, :surname) WHERE user.id=:userid";
-         
+        $sql = "UPDATE user SET username = :username, email = :email, fullname = :fullname, surname = :surname WHERE userid=:userid";
+                 
         if($stmt = $conn->prepare($sql)){
             // Bind variables to the prepared statement as parameters
             $stmt->bindParam(":username", $param_username, PDO::PARAM_STR);
@@ -149,12 +155,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $stmt->bindParam(":email", $param_email, PDO::PARAM_STR);
             $stmt->bindParam(":fullname", $param_fullname, PDO::PARAM_STR);
             $stmt->bindParam(":surname", $param_surname, PDO::PARAM_STR);
+            $stmt->bindParam(":userid", $param_id, PDO::PARAM_INT);
             
             // Set parameters
             $param_username = $username;
             $param_email = $email;
             $param_fullname = $fullname;
             $param_surname = $surname;
+            $param_id = $_SESSION["id"];
 
             // Attempt to execute the prepared statement
             if($stmt->execute()){

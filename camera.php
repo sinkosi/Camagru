@@ -10,6 +10,8 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     header("location: login.php");
     exit;
 }
+
+include './config/createConnection.php';
 ?>
 
 <!DOCTYPE html>
@@ -135,6 +137,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     request.open("POST","/Camagru/save_img.php");
     request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     request.send("img=" + encodeURIComponent(data));
+    window.location.reload();
     });
 
     function mySticker_function() {
@@ -151,14 +154,26 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     }
 
     </script>
-    <?php 
-    /*$data = photo;
-    
-    list($type, $data) = explode(';', $data);
-    list(, $data) = explode(',', $data);
-    $data = base64_decode($data);
-    file_put_contents('images/image.png', $data);*/
+    <?php
+    $userid = $_SESSION["id"];
+   $query = $dbn->query("SELECT * FROM images WHERE userid = '".$userid."' ORDER BY uploaded_on DESC");
+
+    if($query->num_rows > 0){
+        while($row = $query->fetch_assoc()){
+            $imageURL = 'images/'.$row["source"];
+
     ?>
-    <?php include('footer.php') ?>
+
+    <img src="<?php echo $imageURL; ?>" alt="" height="320" width=""/>
+    <form>
+        <input type="hidden" name="uid" value="currUser">
+        <input type="hidden" name="date" value="">
+    </form>
+<?php }
+}else{ ?>
+    <p>No image(s) found...</p>
+<?php }
+    include('footer.php') 
+?>
 </body>
 </html>
