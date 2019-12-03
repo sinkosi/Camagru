@@ -163,8 +163,8 @@ include './config/createConnection.php';
             $imageURL = 'images/'.$row["source"];
 
     ?>
-
-    <img src="<?php echo $imageURL; ?>" alt="" height="320" width=""/>
+    <br>
+    <img src="<?php echo $imageURL; ?>" alt="" height="160" width=""/>
     <form>
         <input type="hidden" name="uid" value="currUser">
         <input type="hidden" name="date" value="">

@@ -7,7 +7,14 @@ session_start();
 require_once "./config/createConnection.php";
 
 $id = $_SESSION["id"];
-//echo $id;
+//DELETE FROM IMAGES
+$sql = "DELETE FROM images WHERE userid = :id";
+//print_r($stmt);
+$stmt = $conn->prepare($sql);
+$stmt->bindParam(":id", $param_id, PDO::PARAM_STR);
+$stmt->execute([':id' => $id]);
+
+//DELETE FROM USER
 $sql = "DELETE FROM user WHERE userid = :id";
 //print_r($stmt);
 $stmt = $conn->prepare($sql);

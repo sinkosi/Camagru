@@ -21,11 +21,17 @@ $new_password_err = $confirm_password_err = "";
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
  
+    /*SET PASSWORD VALIDATION*/
+    $uppercase = preg_match('@[A-Z]@', trim($_POST["new_password"]));
+    $lowercase = preg_match('@[a-z]@', trim($_POST["new_password"]));
+    $number    = preg_match('@[0-9]@', trim($_POST["new_password"]));
+    $specialChars = preg_match('@[^\w]@', trim($_POST["new_password"]));
+    
     // Validate new password
     if(empty(trim($_POST["new_password"]))){
         $new_password_err = "Please enter the new password.";     
-    } elseif(strlen(trim($_POST["new_password"])) < 6){
-        $new_password_err = "Password must have atleast 6 characters.";
+    } elseif(!$uppercase || !$lowercase || !$number || !$specialChars || strlen(trim($_POST["new_password"])) < 8){
+        $password_err = "Password should be at least 8 characters in length and should include at least one upper case letter, one number, and one special character.";
     } else{
         $new_password = trim($_POST["new_password"]);
     }

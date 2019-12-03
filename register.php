@@ -138,12 +138,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         // Close statement
         unset($stmt);
     }
+
+    /*SET PASSWORD VALIDATION*/
+    $uppercase = preg_match('@[A-Z]@', trim($_POST["password"]));
+    $lowercase = preg_match('@[a-z]@', trim($_POST["password"]));
+    $number    = preg_match('@[0-9]@', trim($_POST["password"]));
+    $specialChars = preg_match('@[^\w]@', trim($_POST["password"]));
     
     // Validate password
     if(empty(trim($_POST["password"]))){
         $password_err = "Please enter a password.";     
-    } elseif(strlen(trim($_POST["password"])) < 6){
-        $password_err = "Password must have atleast 6 characters.";
+    } elseif(!$uppercase || !$lowercase || !$number || !$specialChars || strlen(trim($_POST["password"])) < 8){
+        $password_err = "Password should be at least 8 characters in length and should include at least one upper case letter, one number, and one special character.";
     } else{
         $password = trim($_POST["password"]);
     }
