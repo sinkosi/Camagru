@@ -13,7 +13,7 @@ while ($com_row = mysqli_fetch_assoc($find_comments)){
     $imageid = $com_row['imageid'];
     $comment = $com_row['text'];
 
-    echo "$comment_name - $imageid - $comment<p>";
+    echo htmlspecialchars("$comment_name - $imageid - $comment<p>");
     }
 
 
