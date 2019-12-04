@@ -81,6 +81,7 @@ try {
     id INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     userid INT(6) UNSIGNED NOT NULL,
     imageid INT(10) UNSIGNED NOT NULL,
+    text VARCHAR(100) NOT NULL,
     FOREIGN KEY (userid) REFERENCES user(userid),
     FOREIGN KEY (imageid) REFERENCES images(imageid)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";

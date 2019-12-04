@@ -1,7 +1,7 @@
 <?php
-ini_set('display_errors', 1);
+/*ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+error_reporting(E_ALL);*/
 
 // Initialize the session
 session_start();
@@ -37,59 +37,15 @@ if (!isset($_GET['page'])){
     $page = $_GET['page'];
 }
 
-/*TUTORIAL ON LIKES TEST*/
-$likesQuery = $dbn->query("
-    SELECT
-    images.imageid,
-    COUNT(likes.imageid) AS likes
-
-    FROM images
-
-    LEFT JOIN likes
-    ON images.imageid = likes.imageid
-
-    GROUP BY images.imageid
-    ");
-//$like = array();
-/*$stmt = $pdo->prepare("SELECT * FROM table WHERE value=?, ?");
-$stmt->execute(array());
-$stmt->execute();
-while($row = $stmt->fetch(PDO::FETCH_ASSOC))
-{
-    $row['likes'];
-}
-*/
-while($likes_row = $likesQuery->fetch_object()){
-    $likes[] = $likes_row;
-}
-//$array = json_decode(json_encode($likes), True);
-//var_dump($likes);
-//echo '<pre', print_r($likes), '</pre>';
-
-if (is_array($likes)){
-    echo '<pre>', print_r($likes), '<pre>';
-}
-else {
-    //get_class_vars($likes->imageid);
-    //var_dump($likes);
-}
-//echo '<pre', print_r($likes), '</pre>';
-
-//echo '<pre', print_r($array), '</pre><br>';
-
-
-
 //determine the sql Start LIMIT number
 $this_page_first_result = ($page-1)*$results_per_page;
 
 //retrieve selected results from database and display them on page
 $sql = "SELECT * FROM images ORDER BY uploaded_on DESC LIMIT " . $this_page_first_result . ',' . $results_per_page ;
-/*$sql = "SELECT images.imageid, images.source, images.userid
- ORDER BY uploaded_on DESC LIMIT " . $this_page_first_result . ',' . $results_per_page ;
-*/
+
 $result = mysqli_query($db, $sql);
 
-if ($result){
+if ($result > 0){
     while ($row = mysqli_fetch_array($result)){// && $com_row = mysql_fetch_assoc($find_comments)){
         $imageURL ='images/'.$row['source'];
 
@@ -111,18 +67,16 @@ if ($find_comments > 0){
         $comment = $com_row['text'];
 */
     //echo "$comment_name - $comment<p>";
-
+include ('getComments.php');
 ?>
 
     <img src="<?php echo $imageURL; ?>" alt="" height="320" width=""/>
-    <form action="comment.php" method="POST">
+    <form action="comment2.php" method="POST">
         <input type="hidden" name="imageid" value="<?php echo $row['imageid'] ?>">
         <input type="hidden" name="date" value="">
         <textarea name="comment" cols="50" rows="2">Enter a comment</textarea><br>
-        <a href="like.php?userid=<?php echo $_SESSION['id']?>&imageid=<?php echo $row['imageid']; ?>">Like</a>
         <input type="submit" name="submit" value="Comment"></button>
     </form>
-    <p><?php echo $likes['likes']; ?> people like this</p>
     <p>No comments yet, be the first to post <?php echo $row['source']; ?></p>
 <?php }
 }else{ ?>

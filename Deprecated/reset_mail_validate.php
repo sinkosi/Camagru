@@ -68,7 +68,7 @@ if (!empty($email) && !empty($vc)){
     }
     
     // Close connection
-    unset($conn);
+    unset($pdo);
 }
 ?>
 

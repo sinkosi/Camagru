@@ -1,27 +1,35 @@
 <?php
-include_once('config/database.php');
-$conn = connectiondb();
-if (isset($_POST['comment']))
-{
-	session_start();
-	$imgid = $_POST['comment'];
-	$userid = $_SESSION['id'];
-	$post = $_POST['message'];
-	$sql = $conn->prepare("INSERT INTO camagru.comments(imageid,userid,posts) VALUE(?,?,?)");
-	$arr = array($imgid,$userid,$post);
-	if($sql->execute($arr) === TRUE)
-	{
-		$check = "SELECT email FROM user Where id=?";
-		$query = $conn->prepare($check);
-		$query->execute([$userid]);
-		$e = $query->fetch(PDO::FETCH_ASSOC);
-		if (!empty($e))
-		{
-			$sub = "comment";
-			$msg = "$username commented on your picture $post";
-			mail($e['email'],$sub,$msg,'MIME-Version: 1.0\r\nContent-type: text/html;charset=UTF-8'.'From: <no-reply@camagru.co.za>');		
-		}
-	}
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+include ('./config/createConnection.php');
+
+session_start();
+
+$imageid = $_POST['imageid'];
+$comment = $_POST["comment"];
+$userid = $_SESSION["id"];
+
+
+$comment_len = strlen($comment);
+
+if($comment_len > 100){
+    header("location: gallery.php?error=1");
+} else {
+try {
+    $sql = "INSERT INTO comments (userid, imageid, text) 
+        VALUES ('".$userid."', '".$imageid."', '".$comment."')";
+    $conn->exec($sql);
+    
+    header("location: gallery.php?success=1");
 }
-header("location: gallery.php");
+catch(PDOException $e)
+        {
+        echo $sql . "<br>" . $e->getMessage();
+        }
+
+$conn = null;
+}
+//echo "FAIL"
 ?>

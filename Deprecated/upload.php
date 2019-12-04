@@ -15,7 +15,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 
 // Include the database configuration file
 include './config/createConnection.php';
-//require './config/database.php';
+require './config/database.php';
 
 $statusMsg = '';
 
@@ -38,15 +38,13 @@ if(isset($_POST["submit"]) && !empty($_FILES["file"]["name"])){
         // Upload file to server
         if(move_uploaded_file($_FILES["file"]["tmp_name"], $targetFilePath)){
             // Insert image file name into database
-            try{
-                $sql = "INSERT into images (source, userid, uploaded_on) 
-                    VALUES ('".$fileName."', '".$_SESSION["id"]."', NOW())";
-                $conn->exec($sql);
+            $insert = $db->query("INSERT into images (source, userid, uploaded_on) VALUES ('".$fileName."', '".$_SESSION["id"]."', NOW())");
+                        
+            if($insert){
                 $statusMsg = "The file ".$fileName. " has been uploaded successfully by ".($_SESSION["username"]).".";
-            }catch(PDOException $e){
+            }else{
                 $statusMsg = "File upload failed, please try again.";
-                echo $sql . "<br>" . $statusMsg . "<br>" . $e.getMessage();
-            }
+            } 
         }else{
             $statusMsg = "Sorry, there was an error uploading your file.";
         }

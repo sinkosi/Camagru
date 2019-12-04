@@ -25,6 +25,8 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 </head>
     <footer>
     
+        <!--a href="reset-password.php" class="btn btn-warning">Reset Your Password</a-->
+        
         <a href="<?php echo $link_address;?>" class="btn btn-danger"><?php echo $current_status; ?> </a>
         
         &#169 sinkosi 2019

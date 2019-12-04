@@ -4,16 +4,24 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);*/
 // Initialize the session
 include('session_update.php');
-
+//session_start();
+//include('session_update.php');
 // Check if the user is logged in, if not then redirect him to login page
 if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     header("location: login.php");
     exit;
 }
 
+/*if (isset($_SESSION["verified"]) && $_SESSION["verified"] === "0")
+{
+    header("location: checkmail.php");
+    exit;
+}*/
+
+
 //VALIDATE YOUR UPDATES HERE
 // Include config file
-include ('./config/createConnection.php');
+require_once ('./config/createConnection.php');
  
 // Define variables and initialize with empty values
 $fullname = $surname = $username = $email = $notifications = "";
@@ -22,11 +30,19 @@ $userid = $_SESSION["id"];
 
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
+    /*if ($_POST['notifications'] == "0")
+        $_POST['notifications'] = "0";
+    else
+        $_POST['notifications'] = "1";
+    echo "<pre>";
+    print_r($_POST);
+    echo "</pre>";*/
     //Validate FirstName
     if(empty(trim($_POST["fullname"]))){
         $fullname_err = "Please enter a First Name.";
     } else{
         // Prepare a select statement
+        //$sql = "UPDATE user SET fullname = :fullname WHERE userid = :userid";
         $sql = "SELECT userid FROM user WHERE fullname = :fullname";
         if($stmt = $conn->prepare($sql)){
             // Bind variables to the prepared statement as parameters
@@ -68,7 +84,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             } else{
                 echo "Oops! Something went wrong. Please try again later.";
             }
-        }            
+        }
+            
         // Close statement
         unset($stmt);
     }
@@ -108,10 +125,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $email_err = "Please enter a valid email.";
     } else{
         // Prepare a select statement
+        //$sql = "UPDATE user SET email = :email WHERE userid = :userid";
         $sql = "SELECT userid FROM user WHERE email = :email";
         if($stmt = $conn->prepare($sql)){
             // Bind variables to the prepared statement as parameters
             $stmt->bindParam(":email", $param_email, PDO::PARAM_STR);
+            //$stmt->bindParam(":userid", $param_id, PDO::PARAM_INT);
             // Set parameters
             $param_email = trim($_POST["email"]);
             $param_id = $_SESSION["id"];
@@ -134,15 +153,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $fullname_err = "Notification error";
     } else{
         // Prepare a select statement
+        //$sql = "UPDATE user SET email = :email WHERE userid = :userid";
         $sql = "SELECT userid FROM user WHERE notifications = :notifications";
         if($stmt = $conn->prepare($sql)){
             // Bind variables to the prepared statement as parameters
             $stmt->bindParam(":notifications", $param_notifications, PDO::PARAM_INT);
-
+            //$stmt->bindParam(":userid", $param_id, PDO::PARAM_INT);
             // Set parameters
             $param_notifications = $_POST["notifications"];
             $param_id = $_SESSION["id"];
-
             // Attempt to execute the prepared statement
             if($stmt->execute()){
                 if($stmt->rowCount() == 1 && $_SESSION["verified"] == "0"){
@@ -300,7 +319,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             window.location="delete_account.php";
         } else {
             txt = "You pressed Cancel!";
-        }  
+        }
+        
     }
     </script>
 </body>

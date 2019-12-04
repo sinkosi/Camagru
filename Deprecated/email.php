@@ -19,5 +19,5 @@ function confirmMail($toAddr, $toUsername, $token, $ip) {
       mail($toAddr, $subject, $message, $headers);
       echo '<script>alert("Registered Successfully. Please check your email for a verification link")</script>';
 }
-
+   // mail("sibonelo@mailinator.com", "Camagru: Email Confirmation", "Please confirm your email address");
 ?>
