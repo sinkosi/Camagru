@@ -7,14 +7,28 @@ session_start();
 require_once "./config/createConnection.php";
 try{
     $id = $_SESSION["id"];
-    //DELETE FROM LIKES
+    //DELETE FROM LIKES SENT
     $sql = "DELETE FROM likes WHERE userid = :id";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(":id", $id, PDO::PARAM_INT);
     $stmt->execute();
 
-    //DELETE FROM COMMENTS
+    //DELETE LIKES RECEIVED
+    $sql = "DELETE FROM likes WHERE imageid in (
+        SELECT imageid FROM images WHERE userid = :id)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+    $stmt->execute();
+
+    //DELETE FROM COMMENTS SENT
     $sql = "DELETE FROM comments WHERE userid = :id";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+    $stmt->execute();
+
+    //DELETE COMMENTS RECEIVED
+    $sql = "DELETE FROM comments WHERE imageid in (
+        SELECT imageid FROM images WHERE userid = :id)";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(":id", $id, PDO::PARAM_INT);
     $stmt->execute();
