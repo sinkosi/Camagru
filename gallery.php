@@ -44,10 +44,12 @@ if (!isset($_GET['page'])){
 
 //determine the sql Start LIMIT number
 $this_page_first_result = ($page-1)*$results_per_page;
-
+$conn2 = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
+    // set the PDO error mode to exception
+    $conn2->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 //retrieve selected results from database and display them on page
 try{
-    $sql = "SELECT user.userid, user.username, user.notifications, user.email, images.imageid, images.source FROM user, images WHERE user.userid = images.userid ORDER BY uploaded_on DESC LIMIT ".$this_page_first_result . ',' . $results_per_page ;
+    $sql = "SELECT user.userid, user.username, user.notifications, user.verified, user.email, images.imageid, images.source FROM user, images WHERE user.userid = images.userid ORDER BY uploaded_on DESC LIMIT ".$this_page_first_result . ',' . $results_per_page ;
     //$sql = "SELECT * FROM images ORDER BY uploaded_on DESC LIMIT " . $this_page_first_result . ',' . $results_per_page ;
     //$sql = "SELECT * FROM user, images WHERE user.userid = images.userid ";// JOIN SELECT * FROM comments, likes WHERE comments.imageid = likes.imageid";
     $stmt = $conn->prepare($sql);
@@ -56,7 +58,12 @@ try{
         while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
             //echo "<pre>" . print_r($row) . "<pre>";
             $imageURL ='images/'.$row['source'];
-
+            $likesQuery = "SELECT COUNT(imageid) FROM likes WHERE imageid = :imageid";// COUNT(likes.imageid) AS likes";
+            $likes = $conn2->prepare($likesQuery);
+            $likes->bindParam(":imageid", $row['imageid'], PDO::PARAM_INT);
+            if($likes->execute()){
+                $like_row = $likes->fetch(PDO::FETCH_ASSOC);
+            }
 
 ?>
 
@@ -64,15 +71,19 @@ try{
     <form action="comment.php" method="POST">
         <input type="hidden" name="imageid" value="<?php echo $row['imageid'] ?>">
         <input type="hidden" name="date" value="">
+    <?php if($_SESSION['verified'] === "1") :?>
         <textarea name="comment" cols="50" rows="2">Enter a comment</textarea><br>
+    <?php endif; ?>
     <?php if($row['userid'] === $_SESSION['id']) :?>
         <a onClick="return confirm('Are you sure you want to delete this image?')" href="delete_img.php?imageid=<?php echo $row['imageid'];?>">Delete</a>
     <?php endif; ?>
+    <?php if($_SESSION['verified'] === "1") :?>
         <a href="like.php?userid=<?php echo $_SESSION['id']?>&imageid=<?php echo $row['imageid']; ?>">Like</a>
         <input type="submit" name="submit" value="Comment"></button>
+    <?php endif; ?>
     </form>
-    <p><?php// echo $likes['likes']; ?> people like this</p>
-    <p>No comments yet, be the first to post <?php echo $row['source']; ?></p>
+    <p><?php echo $like_row['COUNT(imageid)']; ?> people like this</p>
+    <p>No comments yet, be the first to post <?php //echo $row['source']; ?></p>
 <?php }
 }else{ ?>
     <p>No image(s) found...</p>
@@ -95,5 +106,17 @@ if ($find_comments > 0){
         $comment = $com_row['text'];
 */
     //echo "$comment_name - $comment<p>";
+/*TUTORIAL ON LIKES TEST*/
+/*$likesQuery = $dbn->query("
+    SELECT
+    images.imageid,
+    COUNT(likes.imageid) AS likes
 
+    FROM images
+
+    LEFT JOIN likes
+    ON images.imageid = likes.imageid
+
+    GROUP BY images.imageid
+    ");*/
 ?>
