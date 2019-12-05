@@ -19,11 +19,13 @@ imagepng($img, "images/".$img_name);
 try{
     $sql = "INSERT into images (source, userid, uploaded_on)
         VALUES ('".$img_name."', '".$_SESSION["id"]."', NOW())";
-    $conn->exec($sql);
-    $statusMsg = "The file ".$img_name. " has been uploaded successfully by ".($_SESSION["username"]).".";
+    $stmt = $conn->prepare($sql);
+    if($stmt->execute()){
+        $statusMsg = "The file ".$img_name. " has been uploaded successfully by ".($_SESSION["username"]).".";
+    }
 }catch(PDOException $e){
-    echo $sql . "<br>" . $e.getMessage();
     $statusMsg = "File upload failed, please try again.";
+    echo $sql . "<br>" .$statusMsg . "<br>" . $e.getMessage();
 }
 echo $statusMsg;
 

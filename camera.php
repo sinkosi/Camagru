@@ -156,11 +156,13 @@ include './config/createConnection.php';
     </script>
     <?php
     $userid = $_SESSION["id"];
-   $query = $dbn->query("SELECT * FROM images WHERE userid = '".$userid."' ORDER BY uploaded_on DESC LIMIT 5");
-
-    if($query->num_rows > 0){
-        while($row = $query->fetch_assoc()){
-            $imageURL = 'images/'.$row["source"];
+    try{
+        $sql = "SELECT * FROM images WHERE userid = '".$userid."' ORDER BY uploaded_on DESC LIMIT 5";
+        $stmt = $conn->prepare($sql);
+            
+        if ($stmt->execute() && $stmt->rowCount() > 0){
+            while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                $imageURL = 'images/'.$row["source"];
 
     ?>
     <br>
@@ -173,6 +175,10 @@ include './config/createConnection.php';
 }else{ ?>
     <p>No image(s) found...</p>
 <?php }
+}catch(PDOException $e){
+    $statusMsg = "Failed to load images, please try again.";
+    echo $sql . "<br>" . $statusMsg . "<br>" . $e.getMessage();
+}
     include('footer.php') 
 ?>
 </body>

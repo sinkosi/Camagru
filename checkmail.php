@@ -1,6 +1,7 @@
 <?php
-    session_start();
-
+    if (!isset($_SESSION)){
+        session_start();
+    }
     $vc = $_SESSION["vc"];
     $email = $_SESSION["email"];
     if(isset($_POST['Email_Confirmation'])){

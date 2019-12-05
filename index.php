@@ -8,16 +8,6 @@ session_start();
 // Check if the user is logged in, if not then redirect him to login page
 if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     $_SESSION["username"] = "GUEST";
-    //header("location: login.php");
-    //exit;
-}
-
-$query = $dbn->query("SELECT * FROM images ORDER BY uploaded_on DESC");
-
-if($query->num_rows > 0){
-    while($row = $query->fetch_assoc()){
-        $imageURL = 'images/'.$row["source"];
-    }
 }
 
 ?>
@@ -43,11 +33,13 @@ if($query->num_rows > 0){
 
 <?php
 // Get images from the database
-$query = $dbn->query("SELECT * FROM images ORDER BY uploaded_on DESC");
-
-if($query->num_rows > 0){
-    while($row = $query->fetch_assoc()){
-        $imageURL = 'images/'.$row["source"];
+try{
+    $sql = "SELECT * FROM images ORDER BY uploaded_on DESC LIMIT 20";
+    $stmt = $conn->prepare($sql);
+    
+    if ($stmt->execute() && $stmt->rowCount() > 0){
+        while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+            $imageURL = 'images/'.$row["source"];
 
 ?>
 
@@ -56,7 +48,15 @@ if($query->num_rows > 0){
 <?php }
 }else{ ?>
     <p>No image(s) found...</p>
-<?php } ?>
+<?php
+    
+?>
+<?php }
+}catch(PDOException $e){
+    $statusMsg = "Failed to load images, please try again.";
+    echo $sql . "<br>" . $statusMsg . "<br>" . $e.getMessage();
+}
+?>
     
     <br>
     <br>

@@ -110,29 +110,3 @@ if (!empty($email) && !empty($vc)){
     <?php include('footer.php') ?>
 </body>
 </html>
-
-<!--DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
-    <style type="text/css">
-        body{ font: 14px sans-serif; }
-        .wrapper{ margin: auto; width: 350px; padding: 20px; }
-    </style>
-</head>
-<body>
-
-
-    <div class="form">
-    <h2>Enter your email</h2>
-    <form action="config/forgotten.php" method="POST">
-        <input type="email" name="email" placeholder="E-mail"/>
-        <button type="submit" name="submit">Submit</button>
-        <button formaction="login.php">Login</button>
-    </form>
-    
-</div>
-</body>
-</html-->

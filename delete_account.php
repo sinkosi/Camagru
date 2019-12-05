@@ -10,27 +10,27 @@ try{
     //DELETE FROM LIKES
     $sql = "DELETE FROM likes WHERE userid = :id";
     $stmt = $conn->prepare($sql);
-    $stmt->bindParam(":id", $param_id, PDO::PARAM_INT);
-    $stmt->execute([':id' => $id]);
+    $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+    $stmt->execute();
 
     //DELETE FROM COMMENTS
     $sql = "DELETE FROM comments WHERE userid = :id";
     $stmt = $conn->prepare($sql);
-    $stmt->bindParam(":id", $param_id, PDO::PARAM_INT);
-    $stmt->execute([':id' => $id]);
+    $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+    $stmt->execute();
     
     //DELETE FROM IMAGES
     $sql = "DELETE FROM images WHERE userid = :id";
     $stmt = $conn->prepare($sql);
-    $stmt->bindParam(":id", $param_id, PDO::PARAM_INT);
-    $stmt->execute([':id' => $id]);
+    $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+    $stmt->execute();
 
     //DELETE FROM USER
     $sql = "DELETE FROM user WHERE userid = :id";
     $stmt = $conn->prepare($sql);
-    $stmt->bindParam(":id", $param_id, PDO::PARAM_INT);
-    $stmt->execute([':id' => $id]);
-    //$conn->exec($sql);
+    $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+    $stmt->execute();
+    $statusMsg = "Success";
     header("location: logout.php");
 }catch(PDOException $e){
     echo $sql . "<br>" . $e->getMessage();
