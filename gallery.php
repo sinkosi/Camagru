@@ -1,7 +1,7 @@
 <?php
-/*ini_set('display_errors', 1);
+ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);*/
+error_reporting(E_ALL);
 
 // Initialize the session
 session_start();
@@ -47,11 +47,14 @@ $this_page_first_result = ($page-1)*$results_per_page;
 
 //retrieve selected results from database and display them on page
 try{
-    $sql = "SELECT * FROM images ORDER BY uploaded_on DESC LIMIT " . $this_page_first_result . ',' . $results_per_page ;
+    $sql = "SELECT user.userid, user.username, user.notifications, user.email, images.imageid, images.source FROM user, images WHERE user.userid = images.userid ORDER BY uploaded_on DESC LIMIT ".$this_page_first_result . ',' . $results_per_page ;
+    //$sql = "SELECT * FROM images ORDER BY uploaded_on DESC LIMIT " . $this_page_first_result . ',' . $results_per_page ;
+    //$sql = "SELECT * FROM user, images WHERE user.userid = images.userid ";// JOIN SELECT * FROM comments, likes WHERE comments.imageid = likes.imageid";
     $stmt = $conn->prepare($sql);
 
     if ($stmt->execute() && $stmt->rowCount() > 0){
         while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+            //echo "<pre>" . print_r($row) . "<pre>";
             $imageURL ='images/'.$row['source'];
 
 
@@ -77,7 +80,7 @@ try{
 //Catch ME Outside
 }catch(PDOException $e){
     $statusMsg = "Failed to load images, please try again.";
-    echo $sql . "<br>" . $statusMsg . "<br>" . $e.getMessage();
+    //echo $sql . "<br>" . $statusMsg . "<br>" . $e.getMessage();
 }
 //display the links to the page
 for ($page=1;$page<=$number_of_pages;$page++) {

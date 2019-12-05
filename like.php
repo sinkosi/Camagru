@@ -24,7 +24,21 @@ if (isset($_GET['imageid']) && $_GET['userid'] === $_SESSION['id']){
                         WHERE userid = {$userid}
                         AND imageid = {$imageid})
                     LIMIT 1";
-        $conn->exec($sql);
+        $stmt = $conn->prepare($sql);
+        if($stmt->execute()){
+            $sql = "SELECT user.userid, user.username, user.notifications, user.email, images.imageid, images.source FROM user, images WHERE user.userid = images.userid";
+            $stmt = $conn->prepare($sql);
+            }else{
+                echo "ERROR";
+            }
+            if ($stmt->execute() && $stmt->rowCount() > 0){
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                //echo "<pre>" . print_r($row) . "<pre>";
+                if($row['notifications'] == 1){
+                    mail($row['email'], $_SESSION['username']." Liked your picture", 
+                    "Your picture posted on Camagru was LIKED by ".$_SESSION['username']);
+                }
+            }
         header ("location: gallery.php");
         //echo ('<script>alert("IM SET");</script>');
     }catch(PDOException $e){
