@@ -26,22 +26,6 @@ try {
     reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
     $conn->exec($sql);
-/*
-    //IMAGE TABLE CREATION BACK UP COMMENT
-    $conn = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
-    // set the PDO error mode to exception
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $sql = "CREATE TABLE IF NOT EXISTS image (
-    id INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    source VARCHAR(255) NOT NULL,
-    uploaded_on datetime NOT NULL,
-    //uploaded_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    userid INT(6) UNSIGNED NOT NULL,
-    FOREIGN KEY (userid) REFERENCES user(id)
-    )";
-    $conn->exec($sql);
-    // use exec() because no results are returned
-  */  
 
     //IMAGES TABLE CREATION
     $conn = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
@@ -65,6 +49,7 @@ try {
     $sql = "CREATE TABLE IF NOT EXISTS comments (
     id INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     userid INT(6) UNSIGNED,
+    username VARCHAR(25) NOT NULL,
     imageid INT(11) UNSIGNED NOT NULL,
     text VARCHAR(100) NOT NULL,
     FOREIGN KEY (userid) REFERENCES user(userid),
@@ -86,6 +71,18 @@ try {
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
     $conn->exec($sql);
 
+    //CHAT TABLE CREATION
+    $conn = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
+    // set the PDO error mode to exception
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $sql = "CREATE TABLE IF NOT EXISTS chat (
+    id INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    userid INT(6) UNSIGNED NOT NULL,
+    username VARCHAR(25) NOT NULL,
+    message TEXT(200) NOT NULL,
+    FOREIGN KEY (userid) REFERENCES user(userid)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
+    $conn->exec($sql);
 
     echo "Tables created successfully";
     }

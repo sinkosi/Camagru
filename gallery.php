@@ -70,14 +70,15 @@ try{
             if($likes->execute()){
                 $like_row = $likes->fetch(PDO::FETCH_ASSOC);
             }
-            $commentQuery = "SELECT userid, imageid, text FROM comments WHERE imageid = :imageid";
+            $commentQuery = "SELECT userid, username, imageid, text FROM comments WHERE imageid = :imageid";
             $comms = $conn3->prepare($commentQuery);
             $comms->bindParam(":imageid", $row['imageid'], PDO::PARAM_INT);
+            $comm_out = "No comments yet, be the first to post";
             if ($comms->execute() && $comms->rowCount() > 0){
                 //echo '<script>alert("IM HERE")</script>';
                 while($comms_row = $comms->fetch(PDO::FETCH_ASSOC)){
-                    echo "<pre>" . print_r($comms_row) . "<pre>";
-                    $comm_out = $comms_row['userid'] . " - " . $comms_row['text'] . "<br>";
+                    //echo "<pre>" . print_r($comms_row) . "<pre>";
+                    $comm_out = $comms_row['username'] . " - " . $comms_row['text'] . "<br>";
                 }
             }
 
@@ -99,11 +100,7 @@ try{
     <?php endif; ?>
     </form>
     <p><?php echo $like_row['COUNT(imageid)']; ?> people like this</p>
-    <?php if (!empty($comm_out)) :?>
     <p><?php echo $comm_out; ?></p>
-    <?php else : ?>
-    <p>No comments yet, be the first to post</p>
-    <?php endif; ?>
 <?php }
 }else{ ?>
     <p>No image(s) found...</p>

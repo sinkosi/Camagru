@@ -10,7 +10,7 @@ session_start();
 $imageid = $_POST['imageid'];
 $comment = htmlspecialchars($_POST["comment"]);
 $userid = $_SESSION["id"];
-
+$username = $_SESSION["username"];
 
 $comment_len = strlen($comment);
 
@@ -18,8 +18,8 @@ if($comment_len > 100){
     header("location: gallery.php?error=1");
 } else {
 try {
-    $sql = "INSERT INTO comments (userid, imageid, text) 
-        VALUES ('".$userid."', '".$imageid."', '".$comment."')";
+    $sql = "INSERT INTO comments (userid, username, imageid, text) 
+        VALUES ('".$userid."', '".$username."', '".$imageid."', '".$comment."')";
     $stmt = $conn->prepare($sql);
     if ($stmt->execute()){
     $sql = "SELECT user.userid, user.username, user.notifications, user.email, images.imageid, images.source FROM user, images WHERE user.userid = images.userid";
