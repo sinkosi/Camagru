@@ -45,7 +45,7 @@ if(isset($_POST["submit"]) && !empty($_FILES["file"]["name"])){
                 $statusMsg = "The file ".$fileName. " has been uploaded successfully by ".($_SESSION["username"]).".";
             }catch(PDOException $e){
                 $statusMsg = "File upload failed, please try again.";
-                echo $sql . "<br>" . $statusMsg . "<br>" . $e.getMessage();
+                echo $sql . "<br>" . $statusMsg . "<br>" . $e->getMessage();
             }
         }else{
             $statusMsg = "Sorry, there was an error uploading your file.";

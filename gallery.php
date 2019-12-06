@@ -44,9 +44,15 @@ if (!isset($_GET['page'])){
 
 //determine the sql Start LIMIT number
 $this_page_first_result = ($page-1)*$results_per_page;
+
 $conn2 = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
     // set the PDO error mode to exception
-    $conn2->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$conn2->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+$conn3 = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
+    // set the PDO error mode to exception
+$conn3->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
 //retrieve selected results from database and display them on page
 try{
     $sql = "SELECT user.userid, user.username, user.notifications, user.verified, user.email, images.imageid, images.source FROM user, images WHERE user.userid = images.userid ORDER BY uploaded_on DESC LIMIT ".$this_page_first_result . ',' . $results_per_page ;
@@ -63,6 +69,16 @@ try{
             $likes->bindParam(":imageid", $row['imageid'], PDO::PARAM_INT);
             if($likes->execute()){
                 $like_row = $likes->fetch(PDO::FETCH_ASSOC);
+            }
+            $commentQuery = "SELECT userid, imageid, text FROM comments WHERE imageid = :imageid";
+            $comms = $conn3->prepare($commentQuery);
+            $comms->bindParam(":imageid", $row['imageid'], PDO::PARAM_INT);
+            if ($comms->execute() && $comms->rowCount() > 0){
+                //echo '<script>alert("IM HERE")</script>';
+                while($comms_row = $comms->fetch(PDO::FETCH_ASSOC)){
+                    echo "<pre>" . print_r($comms_row) . "<pre>";
+                    $comm_out = $comms_row['userid'] . " - " . $comms_row['text'] . "<br>";
+                }
             }
 
 ?>
@@ -83,7 +99,11 @@ try{
     <?php endif; ?>
     </form>
     <p><?php echo $like_row['COUNT(imageid)']; ?> people like this</p>
-    <p>No comments yet, be the first to post <?php //echo $row['source']; ?></p>
+    <?php if (!empty($comm_out)) :?>
+    <p><?php echo $comm_out; ?></p>
+    <?php else : ?>
+    <p>No comments yet, be the first to post</p>
+    <?php endif; ?>
 <?php }
 }else{ ?>
     <p>No image(s) found...</p>
