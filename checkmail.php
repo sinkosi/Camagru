@@ -10,8 +10,10 @@
     }
 ?>
 
-<html>
-    <head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
         <title>Please Verify Account</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
         <link rel="stylesheet" type="text/css" href="View/stylesheet.css">      

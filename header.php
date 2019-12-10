@@ -23,10 +23,10 @@ else{
 	
 }
 ?>
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="View/stylesheet.css">
 	<link rel="icon" href="./resources/favicon.ico">
 </head>

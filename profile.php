@@ -213,10 +213,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     </style>
 </head>
 <body>
-    <div>
-        <?php include('header.php') ?>
-    </div>
-    <br>
+    <?php include('header.php') ?>
     <br>
     <br>
     <div class="page-header">
@@ -289,9 +286,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         <br>
     </div>
     <?php endif; ?>
-    <div>
-        <?php include('footer.php') ?>
-    </div>
+    <?php include('footer.php') ?>
     <script>
     function Del_Account() {
         var txt;

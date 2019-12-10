@@ -59,9 +59,10 @@ function submitChat(){
 }
 </script>
 
-<html>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Camagru: Chat</title>
 </head>
 <body>

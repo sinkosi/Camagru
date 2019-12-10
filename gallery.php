@@ -18,7 +18,11 @@ require './config/database.php';
 
 include('header.php');
 ?>
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
 <br>
 <?php
 
@@ -115,25 +119,5 @@ for ($page=1;$page<=$number_of_pages;$page++) {
     echo '<a href="gallery.php?page=' . $page . '">' . $page . "</a>";
 }
 include('footer.php');
-/* GET COMMENTS
-$find_comments = mysql_query("SELECT * FROM comments");
-if ($find_comments > 0){
-    while ($com_row = mysqli_fetch_array($find_comments)){
-        $comment_name = $com_row['userid'];
-        $comment = $com_row['text'];
-*/
-    //echo "$comment_name - $comment<p>";
-/*TUTORIAL ON LIKES TEST*/
-/*$likesQuery = $dbn->query("
-    SELECT
-    images.imageid,
-    COUNT(likes.imageid) AS likes
 
-    FROM images
-
-    LEFT JOIN likes
-    ON images.imageid = likes.imageid
-
-    GROUP BY images.imageid
-    ");*/
 ?>

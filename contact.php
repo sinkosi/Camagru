@@ -1,10 +1,10 @@
 <?php
 session_start();
 ?>
-
-<html>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>I Wrote This Code A Long Time Ago</title>
     <link rel="stylesheet" type="text/css" href="View/stylesheet.css">
 </head>

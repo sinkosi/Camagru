@@ -60,12 +60,14 @@ if(isset($_POST["submit"]) && !empty($_FILES["file"]["name"])){
 // Display status message
 //echo $statusMsg;
 ?>
-
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Upload</title>
 </head>
 <body>
+    
     <?php include('header.php') ?>
 
     <br><?php echo $statusMsg ?><br>
@@ -79,6 +81,7 @@ if(isset($_POST["submit"]) && !empty($_FILES["file"]["name"])){
         <input type="submit" name="submit" value="Upload">
         </form>  
     </div>
+    <br />
     <footer> 
         <?php include('footer.php') ?>
     </footer>
