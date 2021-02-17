@@ -5,6 +5,22 @@
 - [Mandatory](#mandatory)
 - [How To Use](#how-to-use)
 - [Final Mark 122/100 👍](#final-mark-122100-)
+- [Installation](#installation)
+  - [How to Download Source Code](#how-to-download-source-code)
+  - [How to Setup and Configure Database & Web Server](#how-to-setup-and-configure-database--web-server)
+  - [How to Run Program](#how-to-run-program)
+  - [Code Breakdown](#code-breakdown)
+    - [Back-End Technologies](#back-end-technologies)
+    - [Front-End Technologies](#front-end-technologies)
+    - [Database Management Systems](#database-management-systems)
+    - [File Structure](#file-structure)
+      - [Config](#config)
+      - [docs](#docs)
+      - [resources](#resources)
+      - [View](#view)
+  - [Testing](#testing)
+    - [Tests I Ran](#tests-i-ran)
+    - [Expected Outcomes](#expected-outcomes)
  The goal of this project is to build a web application a little more complex than the previous ones with a little less means.
 
 ## Introduction
@@ -55,3 +71,133 @@ reinitialisation mail, if he forget his password.
   - notify of comments & likes
 
 ## Final Mark 122/100 👍
+
+## Installation
+
+### How to Download Source Code
+
+- Navigate to [https:github.com/sinkosi/Camagru](https://github.com/sinkosi/Camagru)
+- Click clone or Download
+
+### How to Setup and Configure Database & Web Server
+
+- Download MAMP from the Bitnami Website
+- Copy the Camagru directory into the folder MAMP/apache2/htdocs
+- Open the manager-osx.
+- Go to Manage Servers tab and make sure MySQL database and Apache Web Server are running.
+- If not, restart the process.
+- Select Configure, this should show details about the port.
+- Open a web browser and go to <http://localhost:(port)/phpmyadmin>
+- Create the database title camagru
+- Navigate to import and upload a camagru file.
+
+### How to Run Program
+
+- Navigate to <http://localhost:(port)/camagru>
+
+### Code Breakdown
+
+#### Back-End Technologies
+
+- PHP
+- JavaScript
+
+#### Front-End Technologies
+
+- HTML
+- CSS
+
+#### Database Management Systems
+
+- MySQL
+
+#### File Structure
+
+##### Config
+
+- createConnection.php
+- createDB.php
+- createTable.php
+- database.php
+- fakePeople.php
+- setup.php
+
+##### docs
+
+- camagruMarkingSheet.pdf
+
+##### resources
+
+- blank.png
+- cheese.png
+- favicon.png
+- flame.png
+- grunt.png
+- pig.png
+- splash.png
+
+##### View
+
+- my_comment.php
+- stylesheet.css
+
+- camera.php
+- chat.php
+- chatinsert.php
+- checkmail.php
+- comment.php
+- contact.php
+- delete_account.php
+- delete_img.php
+- email.php
+- footer.php
+- forgot.php
+- gallery.php
+- header.php
+- index.php
+- like.php
+- login.php
+- logout.php
+- profile.php
+- register.php
+- reset_mail_validate.php
+- reset_mail.php
+- reset-password.php
+- save_img.php
+- session_update.php
+- upload.php
+- verify.php
+
+### Testing
+
+#### Tests I Ran
+
+[Camagru Marking Sheet](./docs/camagru.markingsheet.pdf)
+
+1. Preliminary Checks
+   1. Usage of PHP
+   2. No external frameworks
+   3. config/database.php
+   4. config/setup.php
+   5. Use PDO only to connect to Database
+2. Start Webserver
+3. Create an Account
+4. Login
+5. Webcam
+6. Homepage
+7. Change User Credentials
+
+#### Expected Outcomes
+
+1. Preliminary Checks:
+   1. Checking Source Code should reveal Back-End code is written in PHP
+   2. Checking source code should reveal no additional libraries or frameworks.
+   3. config/database.php should exist
+   4. config/setup.php should exist
+   5. config/database.php should show PDO connection
+2. If you start the apache web server and navigate to <https://localhost:(port)/Camagru>, you should see the landing page for this Web Application
+3. You should be able to sign-up and register an account and receive feedback
+4. You should be able to login using the credentials you created at sign-up
+5. You should be able to use the webcam when opting to take a photo
+6. You should be able to Navigate to the homepage from anywhere in the site and see the gallery
+7. You should be able to navigate to the <http://localost/Camagru/profile.php> page and edit your name, surname and alter your credentials for log in and these should be persistent
